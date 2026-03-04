@@ -1,0 +1,22 @@
+﻿[
+  {
+    "id": "1",
+    "icon": "ri-shield-check-line",
+    "title": "FDA",
+    "description": "United States Food and Drug Administration",
+    "color": "#2879b6",
+    "image": "https://www.rlfinechem.com/wp-content/uploads/2023/08/4-1.jpg",
+    "order": 1,
+    "isActive": true
+  },
+  {
+    "id": "2",
+    "icon": "ri-heart-pulse-line",
+    "title": "EDQM",
+    "description": "European Directorate for Quality of Medicines",
+    "color": "#7dc244",
+    "image": "https://www.rlfinechem.com/wp-content/uploads/2023/08/3-1.jpg",
+    "order": 2,
+    "isActive": true
+  }
+]

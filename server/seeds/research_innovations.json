@@ -1,0 +1,23 @@
+[
+  {
+    "cardTitle": "Institutional Collaboration",
+    "cardSubtitle": "Purposeful Innovation",
+    "cardDescription": "Collaboration with research institutions for developing sustainable pharma and biotech solutions.",
+    "order": 1,
+    "isActive": true
+  },
+  {
+    "cardTitle": "Sustainable Solutions",
+    "cardSubtitle": "Green Manufacturing",
+    "cardDescription": "Focus on developing environmentally friendly pharmaceutical manufacturing processes.",
+    "order": 2,
+    "isActive": true
+  },
+  {
+    "cardTitle": "Long-term Impact",
+    "cardSubtitle": "Societal & Ecological Benefits",
+    "cardDescription": "Innovation focusing on long-term societal and ecological benefits for future generations.",
+    "order": 3,
+    "isActive": true
+  }
+]

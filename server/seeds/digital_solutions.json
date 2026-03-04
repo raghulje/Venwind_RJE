@@ -1,0 +1,23 @@
+[
+  {
+    "cardTitle": "Process Optimization",
+    "cardSubtitle": "Data-Driven Excellence",
+    "cardDescription": "Implementation of data-driven decision-making tools for process optimization and operational excellence.",
+    "order": 1,
+    "isActive": true
+  },
+  {
+    "cardTitle": "Digital Documentation",
+    "cardSubtitle": "Traceability & Compliance",
+    "cardDescription": "Development of digital documentation systems for enhanced traceability and regulatory compliance.",
+    "order": 2,
+    "isActive": true
+  },
+  {
+    "cardTitle": "AI Healthcare Analytics",
+    "cardSubtitle": "Predictive Insights",
+    "cardDescription": "Exploring AI-based healthcare analytics for early disease detection and predictive insights.",
+    "order": 3,
+    "isActive": true
+  }
+]

@@ -1,0 +1,156 @@
+[
+  {
+    "name": "Hindupur Plant",
+    "type": "API Manufacturing",
+    "established": "2004",
+    "location": "Hindupur, India",
+    "capacity": "270 KL",
+    "color": "refex-blue",
+    "image": "https://readdy.ai/api/search-image?query=Modern%20pharmaceutical%20API%20manufacturing%20facility%20with%20large%20reactor%20vessels%2C%20advanced%20chemical%20processing%20equipment%2C%20blue%20industrial%20lighting%2C%20clean%20sterile%20environment%2C%20professional%20pharmaceutical%20production%20plant%2C%20high-tech%20manufacturing%20setup&width=600&height=400&seq=hindupur-plant&orientation=landscape",
+    "capabilities": [
+      "Hydrogenation",
+      "High-vacuum distillation",
+      "High-temperature reactions"
+    ],
+    "approvals": [
+      "WHO",
+      "GMP",
+      "WC",
+      "ISO 9001",
+      "ISO 18001",
+      "ISO 45001"
+    ],
+    "description": "Our flagship API manufacturing facility with nearly two decades of operational excellence, specializing in complex chemical synthesis and advanced pharmaceutical intermediates.",
+    "order": 1,
+    "isActive": true
+  },
+  {
+    "name": "Gauribidnaur Plant",
+    "type": "API Manufacturing",
+    "established": "2016",
+    "location": "Gauribidnaur, India",
+    "capacity": "225 KL",
+    "color": "refex-green",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1qLknDvhw740LxaKtofvAyEXEcw03tOA9aA&s",
+    "capabilities": [
+      "Pilot facility",
+      "In-house testing laboratories"
+    ],
+    "approvals": [
+      "USFDA",
+      "WHO GMP",
+      "ISO 9001",
+      "ISO 45001",
+      "ISO 14001",
+      "ISO 22301"
+    ],
+    "description": "Advanced pilot facility with comprehensive testing capabilities, designed for process development and scale-up operations with full regulatory compliance.",
+    "order": 2,
+    "isActive": true
+  },
+  {
+    "name": "Kurkumbh Plant",
+    "type": "Oncology & Specialty Intermediates",
+    "established": "2020",
+    "location": "Kurkumbh, India",
+    "capacity": "100 KL",
+    "color": "refex-orange",
+    "image": "https://readdy.ai/api/search-image?query=USFDA%20approved%20oncology%20pharmaceutical%20manufacturing%20facility%20with%20specialized%20containment%20systems%2C%20orange%20industrial%20lighting%2C%20high-pressure%20reaction%20vessels%2C%20advanced%20safety%20systems%2C%20professional%20oncology%20drug%20production%20plant&width=600&height=400&seq=kurkumbh-plant&orientation=landscape",
+    "capabilities": [
+      "−20°C to +250°C reactions",
+      "2–3 Torr distillation",
+      "15 Bar high-pressure operations"
+    ],
+    "approvals": [
+      "USFDA inspection (2022, compliant)"
+    ],
+    "description": "USFDA-approved facility specializing in oncology and specialty intermediates with extreme temperature and pressure capabilities for complex pharmaceutical synthesis.",
+    "order": 3,
+    "isActive": true
+  },
+  {
+    "name": "Ambernath Facility",
+    "type": "Oncology & Specialty Intermediates",
+    "established": "2020",
+    "location": "Ambernath, India",
+    "capacity": "Scalable manufacturing",
+    "color": "refex-blue",
+    "image": "https://readdy.ai/api/search-image?query=CMO%20pharmaceutical%20partnering%20facility%20with%20flexible%20manufacturing%20capabilities%2C%20blue%20industrial%20design%2C%20scalable%20production%20equipment%2C%20customer-focused%20manufacturing%20environment%2C%20professional%20pharmaceutical%20contract%20manufacturing&width=600&height=400&seq=ambernath-facility&orientation=landscape",
+    "capabilities": [
+      "CMO partnering unit",
+      "Scalable manufacturing",
+      "Customer flexibility"
+    ],
+    "approvals": [
+      "GMP Standards"
+    ],
+    "description": "CMO partnering unit supporting scalable manufacturing and customer flexibility.",
+    "order": 4,
+    "isActive": true
+  },
+  {
+    "name": "Sermoneta Facility",
+    "type": "Formulations & Complex Generics",
+    "established": "1970s",
+    "location": "Sermoneta, Italy",
+    "capacity": "550 million units annually",
+    "color": "refex-green",
+    "image": "https://readdy.ai/api/search-image?query=European%20pharmaceutical%20formulations%20facility%20with%20sterile%20injectable%20production%20lines%2C%20modern%20clean%20rooms%2C%20green%20industrial%20design%2C%20advanced%20aseptic%20processing%20equipment%2C%20professional%20pharmaceutical%20manufacturing%20in%20Italy&width=600&height=400&seq=sermoneta-facility&orientation=landscape",
+    "capabilities": [
+      "Sterile injectables (oncology)",
+      "Onco OSDs",
+      "Cephalosporins",
+      "Monobactams"
+    ],
+    "approvals": [
+      "EUGMP",
+      "FDA",
+      "ANVISA",
+      "PMDA",
+      "Health Canada"
+    ],
+    "description": "Legacy: Over five decades of operations. Legacy European facility with over five decades of operations, specializing in sterile injectables and complex oncology formulations with global regulatory approvals.",
+    "order": 5,
+    "isActive": true
+  },
+  {
+    "name": "Sugar Land Facility",
+    "type": "Formulations & Complex Generics",
+    "established": "2023",
+    "location": "Sugar Land, Texas, USA",
+    "capacity": "20 million units annually",
+    "color": "refex-orange",
+    "image": "https://readdy.ai/api/search-image?query=Modern%20US%20pharmaceutical%20facility%20specializing%20in%20oncology%20topicals%20and%20oral%20liquids%2C%20orange%20industrial%20lighting%2C%20advanced%20formulation%20equipment%2C%20clean%20manufacturing%20environment%2C%20professional%20pharmaceutical%20production%20in%20Texas&width=600&height=400&seq=sugar-land-facility&orientation=landscape",
+    "capabilities": [
+      "Oncology & hormonal topicals",
+      "Oral liquids",
+      "Dermatology formats"
+    ],
+    "approvals": [
+      "USFDA",
+      "Health Canada"
+    ],
+    "description": "Recently acquired US facility focused on oncology and hormonal topicals, providing strategic access to North American markets with specialized formulation capabilities.",
+    "order": 6,
+    "isActive": true
+  },
+  {
+    "name": "Hungary Packaging Facility",
+    "type": "Packaging & Customization",
+    "established": "2022",
+    "location": "Hungary",
+    "capacity": "Flexible late-stage customization",
+    "color": "refex-blue",
+    "image": "https://readdy.ai/api/search-image?query=European%20pharmaceutical%20packaging%20facility%20with%20automated%20packaging%20lines%2C%20blue%20industrial%20design%2C%20flexible%20customization%20equipment%2C%20modern%20pharmaceutical%20packaging%20systems%2C%20professional%20drug%20packaging%20operations&width=600&height=400&seq=hungary-facility&orientation=landscape",
+    "capabilities": [
+      "Flexible late-stage customization",
+      "OSDs & vials"
+    ],
+    "approvals": [
+      "NCPHP (EU)"
+    ],
+    "description": "Strategic European packaging facility providing flexible late-stage customization for oral solid dosage forms and vials, enabling market-specific requirements.",
+    "order": 7,
+    "isActive": true
+  }
+]

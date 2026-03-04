@@ -1,0 +1,282 @@
+﻿[
+    {
+        "order": 1,
+        "isActive": true,
+        "image": "https://via.placeholder.com/150",
+        "category": "Advisory Board",
+        "color": "refex-blue",
+        "id": "1",
+        "name": "Dr. Brian Tempest",
+        "position": "Advisor",
+        "description": "45+ years of pharma leadership experience, former CEO of Ranbaxy â€“ instrumental in shaping global pharma presence.",
+        "achievements": [
+            "45+ years of pharma leadership experience",
+            "Former CEO, Ranbaxy â€“ instrumental in shaping global pharma presence",
+            "Deep expertise in strategy, governance & global pharmaceutical markets",
+            "Advisor to boards & shareholders of leading pharma companies",
+            "Recognized thought leader with proven foresight in industry transformation"
+        ],
+        "experience": "45+ Years",
+        "education": "Pharmaceutical Leadership"
+    },
+    {
+        "order": 2,
+        "isActive": true,
+        "image": "https://via.placeholder.com/150",
+        "category": "Advisory Board",
+        "color": "refex-green",
+        "id": "2",
+        "name": "K. Raghavendra Rao",
+        "position": "Advisor",
+        "description": "40+ years of pharma industry expertise, founder of Orchid Pharma â€“ built from the ground up to a leading company.",
+        "achievements": [
+            "40+ years of pharma industry expertise",
+            "Founder of Orchid Pharma â€“ built from the ground up to a leading company",
+            "Educational background: B.Com + MBA (IIM Ahmedabad)",
+            "Entrepreneurial excellence in product selection, innovation & strategic growth",
+            "Influential leader shaping the Indian pharmaceutical sector with lasting impact"
+        ],
+        "experience": "40+ Years",
+        "education": "B.Com + MBA (IIM Ahmedabad)"
+    },
+    {
+        "order": 3,
+        "isActive": true,
+        "image": "https://via.placeholder.com/150",
+        "category": "Technical Leadership Team",
+        "color": "refex-orange",
+        "id": "3",
+        "name": "Rajesh Naik",
+        "position": "Executive Director â€“ Operations",
+        "description": "26+ years in pharma technical operations. Ex-Dr. Reddy's, GSK, Biocon & Zydus; expert in manufacturing, SCM, EHS & operational excellence.",
+        "achievements": [
+            "26+ years in pharma technical operations",
+            "Ex-Dr. Reddy's, GSK, Biocon & Zydus experience",
+            "Expert in manufacturing and supply chain management",
+            "Specialist in EHS & operational excellence",
+            "Led multiple facility scale-up projects"
+        ],
+        "experience": "26+ Years",
+        "education": "Technical Operations"
+    },
+    {
+        "order": 4,
+        "isActive": true,
+        "image": "https://via.placeholder.com/150",
+        "category": "Technical Leadership Team",
+        "color": "refex-blue",
+        "id": "4",
+        "name": "Dr. Ramasubramanian Shanmuganathan",
+        "position": "Head R & D",
+        "description": "29+ years in pharma R&D leadership with experience at AstraZeneca, Syngene, Cadila & Jubilant. Brings deep scientific expertise to drive innovation and pipeline growth.",
+        "achievements": [
+            "29+ years in pharma R&D leadership",
+            "Experience at AstraZeneca, Syngene, Cadila & Jubilant",
+            "Deep scientific expertise in drug development",
+            "Drives innovation and pipeline growth",
+            "Led multiple successful product launches"
+        ],
+        "experience": "29+ Years",
+        "education": "PhD, Pharmaceutical Sciences"
+    },
+    {
+        "order": 5,
+        "isActive": true,
+        "image": "https://via.placeholder.com/150",
+        "category": "Technical Leadership Team",
+        "color": "refex-green",
+        "id": "5",
+        "name": "Mathijs Steegstra",
+        "position": "Global Head of Scientific Affairs",
+        "description": "20+ years in pharma quality & regulatory across USA, Europe & MENA. Pharmacy graduate from Groningen; expertise in approvals, compliance & sterile facility management.",
+        "achievements": [
+            "20+ years in pharma quality & regulatory",
+            "Experience across USA, Europe & MENA regions",
+            "Pharmacy graduate from Groningen University",
+            "Expertise in regulatory approvals and compliance",
+            "Specialist in sterile facility management"
+        ],
+        "experience": "20+ Years",
+        "education": "Pharmacy Graduate, Groningen"
+    },
+    {
+        "order": 6,
+        "isActive": true,
+        "image": "https://via.placeholder.com/150",
+        "category": "Technical Leadership Team",
+        "color": "refex-orange",
+        "id": "6",
+        "name": "Dr. Rajasekhara Reddy",
+        "position": "Formulations R&D Head",
+        "description": "15+ years in formulations R&D; expertise in complex generics (liposomes, microspheres, nanoparticles, drugâ€“device combos). PhD in Pharma Sciences; ex-Alembic, Hospira, Dr. Reddy's.",
+        "achievements": [
+            "15+ years in formulations R&D",
+            "Expertise in complex generics (liposomes, microspheres, nanoparticles)",
+            "Specialist in drugâ€“device combination products",
+            "PhD in Pharmaceutical Sciences",
+            "Ex-Alembic, Hospira, Dr. Reddy's"
+        ],
+        "experience": "15+ Years",
+        "education": "PhD, Pharmaceutical Sciences"
+    },
+    {
+        "order": 7,
+        "isActive": true,
+        "image": "https://via.placeholder.com/150",
+        "category": "Management Team",
+        "color": "refex-blue",
+        "id": "7",
+        "name": "Anil Jain",
+        "position": "Chairman & MD, Refex Group",
+        "description": "Visionary entrepreneur who built Refex from scratch, championing innovation, sustainability, and Make-in-India.",
+        "achievements": [
+            "Built Refex Group from scratch",
+            "Champion of innovation and sustainability",
+            "Leader in Make-in-India initiatives",
+            "Visionary entrepreneur with proven track record",
+            "Strategic leader driving group expansion"
+        ],
+        "experience": "40+ Years",
+        "education": "Entrepreneurial Leadership"
+    },
+    {
+        "order": 8,
+        "isActive": true,
+        "image": "https://via.placeholder.com/150",
+        "category": "Management Team",
+        "color": "refex-green",
+        "id": "8",
+        "name": "Dinesh Agarwal",
+        "position": "Group CEO, Refex Group",
+        "description": "Chartered Accountant with 20+ years' experience, renowned for strategic insight and execution, shaping Refex's growth into sustainable success.",
+        "achievements": [
+            "Chartered Accountant with 20+ years' experience",
+            "Renowned for strategic insight and execution",
+            "Shaped Refex's growth into sustainable success",
+            "Expert in financial strategy and operations",
+            "Leader in business transformation"
+        ],
+        "experience": "20+ Years",
+        "education": "Chartered Accountant"
+    },
+    {
+        "order": 9,
+        "isActive": true,
+        "image": "https://via.placeholder.com/150",
+        "category": "Management Team",
+        "color": "refex-orange",
+        "id": "9",
+        "name": "Mr. Hanumantha Rao Kamma",
+        "position": "Chief Strategy Officer",
+        "description": "23+ years in pharma with expertise in strategy, BD & sourcing. Master's in International Management; ex-senior leader across global markets.",
+        "achievements": [
+            "23+ years in pharmaceutical industry",
+            "Expertise in strategy, business development & sourcing",
+            "Master's in International Management",
+            "Ex-senior leader across global markets",
+            "Strategic planning and execution specialist"
+        ],
+        "experience": "23+ Years",
+        "education": "Master's in International Management"
+    },
+    {
+        "order": 10,
+        "isActive": true,
+        "image": "https://via.placeholder.com/150",
+        "category": "Management Team",
+        "color": "refex-blue",
+        "id": "10",
+        "name": "Sharat Narasapur",
+        "position": "CEO, Refex Life Sciences",
+        "description": "25+ years in chemicals & pharma, ex-Dr. Reddy's & SeQuent MD. Strategic leader blending technical expertise with commercial acumen for sustainable growth.",
+        "achievements": [
+            "25+ years in chemicals & pharmaceutical industry",
+            "Ex-Dr. Reddy's & SeQuent Managing Director",
+            "Strategic leader with technical expertise",
+            "Commercial acumen for sustainable growth",
+            "Expert in business transformation"
+        ],
+        "experience": "25+ Years",
+        "education": "Chemical & Pharmaceutical Leadership"
+    },
+    {
+        "order": 11,
+        "isActive": true,
+        "image": "https://via.placeholder.com/150",
+        "category": "Management Team",
+        "color": "refex-green",
+        "id": "11",
+        "name": "Dr. Janos Vaczi",
+        "position": "Managing Director and CEO",
+        "description": "25+ years in pharma with global MNC leadership. MD, Hungary; ex-President International Ops & senior roles across Europe.",
+        "achievements": [
+            "25+ years in pharmaceutical industry",
+            "Global MNC leadership experience",
+            "MD qualification from Hungary",
+            "Ex-President International Operations",
+            "Senior roles across European markets"
+        ],
+        "experience": "25+ Years",
+        "education": "MD, Hungary"
+    },
+    {
+        "order": 12,
+        "isActive": true,
+        "image": "https://via.placeholder.com/150",
+        "category": "Management Team",
+        "color": "refex-orange",
+        "id": "12",
+        "name": "Amit Shrivastava",
+        "position": "Chief Marketing Officer",
+        "description": "President â€“ Marketing, deep expertise in the API space, with strengths in portfolio strategy, competitive intelligence, and regulatory affairs, enabling growth in high-value, niche segments.",
+        "achievements": [
+            "President â€“ Marketing with deep API expertise",
+            "Strengths in portfolio strategy and competitive intelligence",
+            "Expert in regulatory affairs",
+            "Enables growth in high-value, niche segments",
+            "Strategic marketing leadership"
+        ],
+        "experience": "20+ Years",
+        "education": "Marketing & Business Strategy"
+    },
+    {
+        "order": 13,
+        "isActive": true,
+        "image": "https://via.placeholder.com/150",
+        "category": "Management Team",
+        "color": "refex-blue",
+        "id": "13",
+        "name": "PV Raghavendra Rao",
+        "position": "CFO",
+        "description": "CA with 25 years in financial management across pharma. Ex-CFO at Sequent, Macleods & Solara; 14 years at Dr. Reddy's. Expert in FP&A, taxation, treasury & strategy with a Goldratt Master Executive Certificate.",
+        "achievements": [
+            "CA with 25 years in financial management",
+            "Ex-CFO at Sequent, Macleods & Solara",
+            "14 years experience at Dr. Reddy's",
+            "Expert in FP&A, taxation, treasury & strategy",
+            "Goldratt Master Executive Certificate holder"
+        ],
+        "experience": "25+ Years",
+        "education": "CA, Goldratt Master Executive Certificate"
+    },
+    {
+        "order": 14,
+        "isActive": true,
+        "image": "https://via.placeholder.com/150",
+        "category": "Management Team",
+        "color": "refex-green",
+        "id": "14",
+        "name": "Srinivasan Pagadala",
+        "position": "Chief HR Officer",
+        "description": "25+ years in HR across pharma & healthcare. Specialist in talent, transformation & employee relations. Ex-Dr. Reddy's, Novartis, GVK Bio, Biological E, and Solara Active Pharma.",
+        "achievements": [
+            "25+ years in HR across pharma & healthcare",
+            "Specialist in talent, transformation & employee relations",
+            "Ex-Dr. Reddy's, Novartis, GVK Bio experience",
+            "Experience at Biological E and Solara Active Pharma",
+            "Expert in organizational development"
+        ],
+        "experience": "25+ Years",
+        "education": "HR & Organizational Development"
+    }
+]

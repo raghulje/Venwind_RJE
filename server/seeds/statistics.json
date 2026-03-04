@@ -1,0 +1,32 @@
+﻿[
+  {
+    "id": "1",
+    "title": "Scientists & Researchers",
+    "value": 200,
+    "description": "Dedicated professionals driving innovation in pharmaceutical research and development",
+    "image": "https://readdy.ai/api/search-image?query=Professional%20pharmaceutical%20scientists%20and%20researchers%20working%20in%20modern%20laboratory%20with%20advanced%20scientific%20equipment%2C%20team%20of%20dedicated%20professionals%20in%20white%20lab%20coats%20conducting%20pharmaceutical%20research%20and%20development%2C%20clean%20sterile%20laboratory%20environment%20with%20microscopes%20and%20analytical%20instruments&width=400&height=300&seq=scientists-research&orientation=landscape",
+    "color": "#2879b6",
+    "order": 1,
+    "isActive": true
+  },
+  {
+    "id": "2",
+    "title": "Pharmaceutical Products",
+    "value": 150,
+    "description": "Comprehensive portfolio of high-quality pharmaceutical products and APIs",
+    "image": "https://readdy.ai/api/search-image?query=Comprehensive%20portfolio%20of%20high-quality%20pharmaceutical%20products%20and%20APIs%2C%20modern%20pharmaceutical%20manufacturing%20facility%20with%20medicine%20bottles%20and%20complex%20generic%20formulations%2C%20professional%20pharmaceutical%20production%20line%20with%20quality%20control%20systems&width=400&height=300&seq=pharma-products&orientation=landscape",
+    "color": "#7dc244",
+    "order": 2,
+    "isActive": true
+  },
+  {
+    "id": "3",
+    "title": "Global Markets",
+    "value": 80,
+    "description": "Serving healthcare needs across diverse international markets with regulatory excellence",
+    "image": "https://readdy.ai/api/search-image?query=Global%20pharmaceutical%20markets%20and%20international%20healthcare%20distribution%20network%2C%20world%20map%20showing%20diverse%20international%20markets%20with%20regulatory%20excellence%2C%20professional%20pharmaceutical%20distribution%20across%20multiple%20countries%20with%20modern%20logistics&width=400&height=300&seq=global-markets&orientation=landscape",
+    "color": "#ee6a31",
+    "order": 3,
+    "isActive": true
+  }
+]

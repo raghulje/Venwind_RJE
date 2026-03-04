@@ -1,0 +1,135 @@
+﻿[
+    {
+        "id": "1",
+        "title": "Legacy of Leadership",
+        "description": "40+ years of proven expertise in psychotropic APIs and complex generics",
+        "icon": "ri-award-line",
+        "color": "#2879b6",
+        "gradient": "from-blue-500 to-cyan-500",
+        "metric": "40+",
+        "unit": "Years",
+        "order": 1,
+        "isActive": true
+    },
+    {
+        "id": "2",
+        "title": "Global Trust",
+        "description": "Strong relationships with top pharma innovators and generics across 80+ countries",
+        "icon": "ri-global-line",
+        "color": "#7dc244",
+        "gradient": "from-green-500 to-emerald-500",
+        "metric": "80+",
+        "unit": "Countries",
+        "order": 2,
+        "isActive": true
+    },
+    {
+        "id": "3",
+        "title": "Diverse Portfolio",
+        "description": "Market leadership in CNS, antipsychotics, antihistamines, muscle relaxants, and expanding into high-barrier therapies",
+        "icon": "ri-briefcase-line",
+        "color": "#ee6a31",
+        "gradient": "from-orange-500 to-red-500",
+        "metric": "CNS",
+        "unit": "Leadership",
+        "order": 3,
+        "isActive": true
+    },
+  
+    {
+        "id": "7",
+        "title": "Quality Compliance",
+        "icon":"ri-line-chart-line",
+        "description": "Delivering 100% quality compliance to ensure every product is consistent, safe, and reliable.",
+        "color": "#2879b6",
+        "gradient": "from-purple-500 to-indigo-500",
+        "metric": "100%",
+        "unit": "Quality",
+        "order": 9,
+        "isActive": true
+    },
+    {
+        "id": "8",
+        "title": "Integrated Value Chain",
+        "description": "End-to-end strength across KSM, APIs, and FDFs, reducing supply chain risk and ensuring reliability",
+        "icon": "ri-links-line",
+        "color": "#7dc244",
+        "gradient": "from-teal-500 to-cyan-500",
+        "metric": "E2E",
+        "unit": "Solutions",
+        "order": 8,
+        "isActive": true
+    },
+    {
+        "id": "9",
+        "title": "World-Class Manufacturing",
+        "description": "Multiple sites in Karnataka, Andhra Pradesh, and global hubs in Italy and US, scaling seamlessly from grams to tons",
+        "icon": "ri-flask-line",
+        "color": "#ee6a31",
+        "gradient": "from-pink-500 to-rose-500",
+        "metric": "6",
+        "unit": "Facilities",
+        "order": 9,
+        "isActive": true
+    },
+    {
+        "id": "10",
+        "title": "Regulatory Excellence",
+        "description": "Approvals and compliance across US, EU, and other major regulated markets",
+        "icon": "ri-shield-check-line",
+        "color": "#2879b6",
+        "gradient": "from-blue-500 to-purple-500",
+        "metric": "Global",
+        "unit": "Approvals",
+        "order": 10,
+        "isActive": true
+    },
+    {
+        "id": "11",
+        "title": "Partner of Choice",
+        "description": "Trusted by 550+ customers worldwide for quality, speed, and regulatory support",
+        "icon": "ri-line-chart-line",
+        "color": "#7dc244",
+        "gradient": "from-emerald-500 to-green-500",
+        "metric": "550+",
+        "unit": "Customers",
+        "order": 11,
+        "isActive": true
+    },
+    {
+        "id": "12",
+        "title": "Agile Supply Chain",
+        "description": "Flexible, resilient operations ensuring consistent delivery in volatile environments",
+        "icon": "ri-truck-line",
+        "color": "#ee6a31",
+        "gradient": "from-orange-500 to-amber-500",
+        "metric": "Resilient",
+        "unit": "Operations",
+        "order": 12,
+        "isActive": true
+    },
+    {
+        "id": "13",
+        "title": "Sustainability Commitment",
+        "description": "Embedding green chemistry, water-positive initiatives, and ESG practices into every process",
+        "icon": "ri-leaf-line",
+        "color": "#7dc244",
+        "gradient": "from-green-500 to-lime-500",
+        "metric": "ESG",
+        "unit": "Focused",
+        "order": 13,
+        "isActive": true
+    },
+    {
+        "id": "14",
+        "title": "Future-Ready Growth",
+        "description": "Backed by Refex Group's financial strength, infrastructure, and vision for global expansion",
+        "icon": "ri-rocket-line",
+        "color": "#2879b6",
+        "gradient": "from-indigo-500 to-purple-500",
+        "metric": "Global",
+        "unit": "Vision",
+        "order": 14,
+        "isActive": true
+    }
+]

@@ -1,0 +1,96 @@
+{
+  "sectionTitle": "Vision & Mission",
+  "sectionSubtitle": "Our commitment to sustainable healthcare and environmental stewardship",
+  "visionTitle": "Our Vision",
+  "visionSubtitle": "Sustainable Healthcare Partner",
+  "visionDescription": "To become a trusted and sustainable healthcare partner, delivering impactful life science solutions that improve lives while preserving the environment for future generations.",
+  "visionPoints": [
+    {
+      "id": "vp-1",
+      "icon": "ri-heart-pulse-line",
+      "text": "Transform global healthcare through innovation-driven pharmaceutical solutions",
+      "color": "#2879b6",
+      "order": 1,
+      "isActive": true
+    },
+    {
+      "id": "vp-2",
+      "icon": "ri-earth-line",
+      "text": "Preserve environmental resources for sustainable future generations",
+      "color": "#2879b6",
+      "order": 2,
+      "isActive": true
+    },
+    {
+      "id": "vp-3",
+      "icon": "ri-shield-check-line",
+      "text": "Build trusted partnerships across global healthcare ecosystems",
+      "color": "#2879b6",
+      "order": 3,
+      "isActive": true
+    },
+    {
+      "id": "vp-4",
+      "icon": "ri-lightbulb-line",
+      "text": "Drive impactful life science innovations for better patient outcomes",
+      "color": "#2879b6",
+      "order": 4,
+      "isActive": true
+    }
+  ],
+  "missionTitle": "Our Mission",
+  "missionSubtitle": "Impactful Solutions",
+  "missionPoints": [
+    {
+      "id": "mp-1",
+      "icon": "ri-check-line",
+      "text": "Deliver innovative, affordable, and high-quality healthcare solutions",
+      "color": "#7dc244",
+      "order": 1,
+      "isActive": true
+    },
+    {
+      "id": "mp-2",
+      "icon": "ri-check-line",
+      "text": "Embed sustainability and ethics at the heart of every decision",
+      "color": "#7dc244",
+      "order": 2,
+      "isActive": true
+    },
+    {
+      "id": "mp-3",
+      "icon": "ri-check-line",
+      "text": "Empower communities through accessible healthcare and education",
+      "color": "#7dc244",
+      "order": 3,
+      "isActive": true
+    },
+    {
+      "id": "mp-4",
+      "icon": "ri-check-line",
+      "text": "Contribute to India's sustainable development and climate goals",
+      "color": "#7dc244",
+      "order": 4,
+      "isActive": true
+    }
+  ],
+  "stats": [
+    {
+      "id": "vs-1",
+      "label": "Core Pillars",
+      "value": "4",
+      "color": "#2879b6",
+      "order": 1,
+      "isActive": true
+    },
+    {
+      "id": "vs-2",
+      "label": "Commitment",
+      "value": "100%",
+      "color": "#2879b6",
+      "order": 2,
+      "isActive": true
+    }
+  ],
+  "isActive": true
+}

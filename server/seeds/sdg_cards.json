@@ -1,0 +1,65 @@
+[
+  {
+    "number": 3,
+    "title": "Good Health & Well-being",
+    "contribution": "Promoting affordable, accessible healthcare and preventive medicine through our comprehensive pharmaceutical solutions and global reach across 80+ countries.",
+    "icon": "ri-heart-pulse-line",
+    "color": "#2879b6",
+    "order": 1,
+    "isActive": true
+  },
+  {
+    "number": 6,
+    "title": "Clean Water & Sanitation",
+    "contribution": "Supporting Group's water restoration and water positivity projects, implementing sustainable water management practices across all our manufacturing facilities.",
+    "icon": "ri-drop-line",
+    "color": "#7dc244",
+    "order": 2,
+    "isActive": true
+  },
+  {
+    "number": 7,
+    "title": "Affordable & Clean Energy",
+    "contribution": "Committing to renewable energy transition for operations, implementing solar and wind energy solutions across our global manufacturing facilities.",
+    "icon": "ri-sun-line",
+    "color": "#ee6a31",
+    "order": 3,
+    "isActive": true
+  },
+  {
+    "number": 9,
+    "title": "Industry, Innovation & Infrastructure",
+    "contribution": "Encouraging R&D in sustainable life sciences and green manufacturing, investing in cutting‑up technology and innovation centers.",
+    "icon": "ri-building-line",
+    "color": "#2879b6",
+    "order": 4,
+    "isActive": true
+  },
+  {
+    "number": 12,
+    "title": "Responsible Consumption & Production",
+    "contribution": "Emphasising waste reduction, circular use of materials, and efficient resource utilisation through green chemistry principles and sustainable manufacturing processes.",
+    "icon": "ri-recycle-line",
+    "color": "#7dc244",
+    "order": 5,
+    "isActive": true
+  },
+  {
+    "number": 13,
+    "title": "Climate Action",
+    "contribution": "Supporting Group's Net Zero Carbon 2040 mission through green infrastructure, renewable energy adoption, and carbon footprint reduction initiatives.",
+    "icon": "ri-leaf-line",
+    "color": "#ee6a31",
+    "order": 6,
+    "isActive": true
+  },
+  {
+    "number": 17,
+    "title": "Partnerships for the Goals",
+    "contribution": "Collaborating with research institutions, NGOs, and global initiatives for sustainable healthcare, fostering partnerships that drive innovation and positive impact across the pharmaceutical industry.",
+    "icon": "ri-team-line",
+    "color": "#2879b6",
+    "order": 7,
+    "isActive": true
+  }
+]

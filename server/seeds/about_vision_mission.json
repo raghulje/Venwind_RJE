@@ -1,0 +1,66 @@
+{
+  "visionTitle": "Our Vision",
+  "visionDescription": "To transform global healthcare by building an innovation driven, integrated pharmaceutical platform from India, delivering affordable, accessible and life changing drugs.",
+  "visionImage": "https://readdy.ai/api/search-image?query=Futuristic%20pharmaceutical%20vision%20concept%20with%20innovative%20drug%20development%20laboratory%2C%20advanced%20technology%2C%20scientists%20working%20on%20life-changing%20medications%2C%20modern%20research%20facility%20with%20blue%20and%20cyan%20lighting%2C%20professional%20healthcare%20innovation%20atmosphere&width=600&height=400&seq=vision-concept&orientation=landscape",
+  "missionTitle": "Our Mission",
+  "missionImage": "https://readdy.ai/api/search-image?query=Pharmaceutical%20mission%20concept%20showing%20integrated%20supply%20chain%20and%20AI-powered%20research%2C%20modern%20production%20facility%20with%20advanced%20automation%2C%20scientists%20collaborating%20on%20drug%20development%2C%20green%20and%20emerald%20lighting%20atmosphere%2C%20professional%20healthcare%20manufacturing%20environment&width=600&height=600&seq=mission-concept&orientation=squarish",
+  "missionPoints": [
+    {
+      "id": "mp-1",
+      "title": "Build a future-ready integrated pharma platform",
+      "description": "Delivering high-quality APIs and complex generic formulations across CNS, respiratory, and high-barrier specialty therapies",
+      "order": 1,
+      "isActive": true
+    },
+    {
+      "id": "mp-2", 
+      "title": "Leverage technology innovation in R&D and manufacturing",
+      "description": "Accelerating drug development cycles with AI-enabled research and continuous flow chemistry technology",
+      "order": 2,
+      "isActive": true
+    },
+    {
+      "id": "mp-3",
+      "title": "Deepen global footprint",
+      "description": "Expand our reach across 80+ markets with local presence, regional insights, and responsive supply chains to serve global customers effectively",
+      "order": 3,
+      "isActive": true
+    },
+    {
+      "id": "mp-4",
+      "title": "Sustainability through Green Chemistry",
+      "description": "Implement water-positive initiatives, reduce carbon footprint, and build ESG-focused operations as a core pillar of our excellence",
+      "order": 4,
+      "isActive": true
+    },
+    {
+      "id": "mp-5",
+      "title": "Patient-centric drug development",
+      "description": "Focus on developing treatments for rare diseases and unmet medical needs, ensuring accessibility and affordability for patients worldwide",
+      "order": 5,
+      "isActive": true
+    },
+    {
+      "id": "mp-6",
+      "title": "Strategic partnerships and collaborations",
+      "description": "Build strong relationships with research institutions, healthcare providers, and technology partners to accelerate innovation and market reach",
+      "order": 6,
+      "isActive": true
+    },
+    {
+      "id": "mp-7",
+      "title": "Regulatory excellence and compliance",
+      "description": "Maintain the highest standards of regulatory compliance across all markets, ensuring quality, safety, and efficacy of our products",
+      "order": 7,
+      "isActive": true
+    },
+    {
+      "id": "mp-8",
+      "title": "Digital transformation in healthcare",
+      "description": "Embrace digital technologies, data analytics, and AI to optimize manufacturing processes, improve patient outcomes, and enhance operational efficiency",
+      "order": 8,
+      "isActive": true
+    }
+  ],
+  "isActive": true
+}

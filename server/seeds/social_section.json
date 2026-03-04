@@ -1,0 +1,71 @@
+{
+  "sectionTitle": "Social Responsibility and Community Engagement",
+  "sectionDescription": "Even as an emerging entity, Refex Life Sciences aligns with the Group's CSR priorities, supporting initiatives that create lasting positive impact in the communities we serve.",
+  "csrCards": [
+      {
+          "id": "csr-1",
+          "cardTitle": "Child Education",
+          "cardSubtitle": "& Skill Development",
+          "cardDescription": "Supporting educational initiatives and skill development programs to empower children and youth with knowledge and opportunities for a brighter future.",
+          "highlightText": "Building Tomorrow's Leaders",
+          "icon": "ri-book-open-line",
+          "gradientColors": "#2879b6,#3a8bc4",
+          "isActive": true,
+          "order": 1
+      },
+      {
+          "id": "csr-2",
+          "cardTitle": "Health Awareness",
+          "cardSubtitle": "& Preventive Care",
+          "cardDescription": "Promoting health awareness campaigns and preventive care programs to improve community health outcomes and reduce healthcare disparities.",
+          "highlightText": "Healthier Communities",
+          "icon": "ri-heart-pulse-line",
+          "gradientColors": "#7dc244,#6bb83a",
+          "isActive": true,
+          "order": 2
+      },
+      {
+          "id": "csr-3",
+          "cardTitle": "Environmental",
+          "cardSubtitle": "Conservation",
+          "cardDescription": "Leading water body rejuvenation and afforestation initiatives to restore ecosystems and combat climate change for a sustainable future.",
+          "highlightText": "Protecting Our Planet",
+          "icon": "ri-leaf-line",
+          "gradientColors": "#26bde2,#1a9bc7",
+          "isActive": true,
+          "order": 3
+      }
+  ],
+  "csrImpactTitle": "Community Impact Through Partnership",
+  "csrImpactDescription": "These programs are implemented through Group-supported NGOs and foundations, amplifying our positive community impact and creating sustainable change.",
+  "csrImpactItems": [
+      {
+          "id": "csri-1",
+          "title": "Education",
+          "description": "Supporting schools and skill development centers",
+          "icon": "ri-graduation-cap-line",
+          "gradientColors": "#2879b6,#3a8bc4",
+          "isActive": true,
+          "order": 1
+      },
+      {
+          "id": "csri-2",
+          "title": "Healthcare",
+          "description": "Mobile health clinics and awareness programs",
+          "icon": "ri-hospital-line",
+          "gradientColors": "#7dc244,#6bb83a",
+          "isActive": true,
+          "order": 2
+      },
+      {
+          "id": "csri-3",
+          "title": "Environment",
+          "description": "Tree plantation and water conservation projects",
+          "icon": "ri-plant-line",
+          "gradientColors": "#26bde2,#1a9bc7",
+          "isActive": true,
+          "order": 3
+      }
+  ],
+  "isActive": true
+}

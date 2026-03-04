@@ -1,0 +1,67 @@
+{
+    "title": "Research & Development Excellence",
+    "description": "At Refex Life Sciences, innovation is our engine of growth. With world-class R&D centres and a team of over 200 scientists, we are advancing the frontiers of both API development and complex finished dosage formulations (FDFs). Our research is focused on creating differentiated, sustainable, and patient‑centric solutions that address unmet needs across global healthcare.",
+    "image": "https://readdy.ai/api/search-image?query=Pharmaceutical%20R%26D%20laboratory%20with%20scientists%20and%20advanced%20equipment%2C%20blue%20lighting%2C%20innovative%20research%20environment&width=1200&height=600&seq=rd-excellence&orientation=landscape",
+    "isActive": true,
+    "apiCard": {
+        "title": "API R&D Strengths",
+        "subtitle": "Advanced Process Development",
+        "icon": "ri-flask-line",
+        "color": "#2879b6",
+        "points": [
+            {
+                "title": "Sustainable Process Development",
+                "description": "Cost-effective, eco-friendly synthesis strategies for scalability and compliance."
+            },
+            {
+                "title": "Chiral Chemistry Expertise",
+                "description": "Development of scalable chiral processes using advanced resolution and enzymatic techniques."
+            },
+            {
+                "title": "Complex Chemistry Capabilities",
+                "description": "Proven expertise in Grignard reactions, N- & O-alkylations, borohydride reductions, and other specialized chemistries."
+            },
+            {
+                "title": "Impurity & Genotoxic Control",
+                "description": "In-house synthesis, profiling, and validated risk management strategies ensuring global compliance."
+            },
+            {
+                "title": "Technology Transfer",
+                "description": "Dedicated technical services team supporting seamless process scale‑up, HAZOP studies, and safety assessments."
+            },
+            {
+                "title": "Green Chemistry Principles",
+                "description": "Embedding sustainability into every stage of product and process development."
+            },
+            {
+                "title": "Regulatory Support",
+                "description": "Full‑fledged analytical R&D enabling robust filings and global regulatory responses."
+            }
+        ]
+    },
+    "fdfCard": {
+        "title": "FDF R&D Strengths",
+        "subtitle": "Complex Formulation Development",
+        "icon": "ri-capsule-line",
+        "color": "#7dc244",
+        "points": [
+            {
+                "title": "Cross‑Functional Expertise",
+                "description": "Integrating analytical, engineering, clinical, QA, and regulatory capabilities to deliver holistic solutions."
+            },
+            {
+                "title": "Innovation in Dosage Forms",
+                "description": "Focus on complex injectables, novel drug delivery systems, and differentiated generics."
+            },
+            {
+                "title": "Proven Track Record",
+                "description": "Successfully taking highly complex products from concept to commercialization, ensuring speed, compliance, and scalability."
+            }
+        ]
+    },
+    "promise": {
+        "title": "Our R&D Promise",
+        "description": "Through a relentless focus on innovation, sustainability, and regulatory excellence, Refex Life Sciences is shaping the future of healthcare – from breakthrough APIs to complex formulations that improve patient outcomes worldwide",
+        "icon": "ri-lightbulb-line"
+    }
+}

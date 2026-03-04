@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global font family - DM Sans to match live site */
+@layer base {
+  html,
+  body {
+    font-family: 'DM Sans', sans-serif;
+  }
+}
+
+/* Prevent horizontal scrolling; allow vertical wheel/trackpad scroll */
+html,
+body {
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-width: 100%;
+  position: relative;
+  /* Use auto so mouse wheel and trackpad scroll work; none was blocking them */
+  overscroll-behavior: auto;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  overflow-x: hidden;
+  max-width: 100%;
+  position: relative;
+}

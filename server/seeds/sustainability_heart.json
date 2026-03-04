@@ -1,0 +1,48 @@
+{
+  "mainTitle": "Sustainability — The Heart of Our Progress",
+  "mainSubtitle": "Refex Life Sciences operates under the Refex Group's ESG Strategy and Sustainability Roadmap. Our comprehensive approach ensures responsible growth across all dimensions.",
+  "sections": [
+    {
+      "title": "Environmental Responsibility",
+      "description": "Reducing carbon emissions, energy use, and waste through innovative green technologies and sustainable practices.",
+      "icon": "ri-leaf-line",
+      "color": "#7dc244",
+      "metrics": [
+        { "title": "Net Zero", "subtitle": "Carbon by 2040" },
+        { "title": "Green Tech", "subtitle": "Innovation Focus" }
+      ],
+      "image": "https://readdy.ai/api/search-image?query=Environmental%20sustainability%20in%20pharmaceutical%20manufacturing&width=600&height=400"
+    },
+    {
+      "title": "Social Equity",
+      "description": "Promoting healthcare accessibility, education, and community empowerment through inclusive growth initiatives.",
+      "icon": "ri-group-line",
+      "color": "#2879b6",
+      "metrics": [
+        { "title": "Healthcare", "subtitle": "Access for All" },
+        { "title": "Education", "subtitle": "Community Growth" }
+      ],
+      "image": "https://readdy.ai/api/search-image?query=Social%20equity%20and%20community%20healthcare%20programs&width=600&height=400"
+    },
+    {
+      "title": "Governance Excellence",
+      "description": "Upholding integrity, transparency, and accountability across all operations with robust governance frameworks.",
+      "icon": "ri-shield-check-line",
+      "color": "#ee6a31",
+      "metrics": [
+        { "title": "Zero Harm", "subtitle": "All Operations" },
+        { "title": "100%", "subtitle": "Transparency" }
+      ],
+      "image": "https://readdy.ai/api/search-image?query=Corporate%20governance%20and%20compliance&width=600&height=400"
+    }
+  ],
+  "commitments": [
+    { "title": "Net Zero", "subtitle": "Carbon Emissions by 2040", "icon": "ri-leaf-line", "color": "refex-green" },
+    { "title": "Water+", "subtitle": "Positive Operations by 2035", "icon": "ri-drop-line", "color": "refex-blue" },
+    { "title": "Zero Harm", "subtitle": "In All Operations", "icon": "ri-shield-check-line", "color": "refex-orange" },
+    { "title": "100%", "subtitle": "Waste Circularity Target", "icon": "ri-recycle-line", "color": "refex-blue" }
+  ],
+  "isActive": true
+}
+
+

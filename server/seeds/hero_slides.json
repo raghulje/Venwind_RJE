@@ -1,0 +1,28 @@
+[
+  {
+    "image": "https://readdy.ai/api/search-image?query=State-of-the-art%20pharmaceutical%20laboratory%20with%20advanced%20scientific%20equipment%20and%20researchers%20in%20white%20coats%2C%20modern%20sterile%20environment%20with%20sophisticated%20instruments%20and%20glass%20beakers%2C%20high-tech%20medical%20research%20facility%20with%20blue%20accent%20lighting%20and%20clean%20white%20surfaces%2C%20professional%20pharmaceutical%20lab%20atmosphere%20showcasing%20innovation%20from%20lab%20to%20life&width=1200&height=600&seq=pharma-lab-1&orientation=landscape",
+    "title": "Accelerating Healthcare from Lab to Life",
+    "order": 1,
+    "isActive": true
+  },
+  {
+    "image": "https://readdy.ai/api/search-image?query=Global%20pharmaceutical%20network%20visualization%20showing%20world%20map%20with%20connecting%20lines%20to%2080%20%20countries%2C%20modern%20digital%20interface%20displaying%20international%20connections%20and%20global%20reach%2C%20professional%20blue%20and%20green%20color%20scheme%20with%20geographic%20elements%2C%20clean%20minimalist%20design%20representing%20worldwide%20pharmaceutical%20distribution&width=1200&height=600&seq=global-reach-2&orientation=landscape",
+    "title": "Global Reach – Customers in 80+ countries",
+    "order": 2,
+    "isActive": true
+  },
+  {
+    "image": "https://readdy.ai/api/search-image?query=Pharmaceutical%20production%20line%20showing%20building%20blocks%20to%20final%20formulations%20process%2C%20modern%20industrial%20facility%20with%20conveyor%20belts%20and%20packaging%20equipment%2C%20clean%20white%20manufacturing%20environment%20with%20blue%20industrial%20machinery%2C%20professional%20pharmaceutical%20manufacturing%20setting%20demonstrating%20reliable%20production%20chain&width=1200&height=600&seq=production-3&orientation=landscape",
+    "title": "From Building Blocks to Formulations: One Partner. Total Reliability",
+    "order": 3,
+    "isActive": true
+  },
+  {
+    "image": "https://readdy.ai/api/search-image?query=Multiple modern pharmaceutical facilities and research centers layout showing 4 global facilities and 3 R&D centres, aerial view of integrated pharmaceutical platform with clean architecture, professional buildings with glass facades and modern design, comprehensive pharmaceutical infrastructure visualization&width=1200&height=600&seq=facilities-4&orientation=landscape",
+    "title": "4 Global Facilities | 3 R&D Centres | 1 Integrated Pharma Platform",
+    "order": 4,
+    "isActive": true
+  }
+]
+
+
