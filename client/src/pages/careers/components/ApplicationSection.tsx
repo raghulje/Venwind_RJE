@@ -1,6 +1,9 @@
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect } from 'react';
 import { getCMSData } from '../../../utils/cms';
-import CaptchaComponent from './CaptchaComponent';
+
+// Kissflow careers form iframe – careers page only (contact form is unchanged).
+// Replace with your Kissflow careers process public/embed URL if different.
+const KISSFLOW_CAREERS_FORM_URL = 'https://development-refexgroup.kissflow.com/public/Process/Pf1152c833-6b47-4361-a767-f66a99e07b30';
 
 interface ApplicationContent {
   title?: string;
@@ -17,20 +20,9 @@ const defaultContent: ApplicationContent = {
 };
 
 export default function ApplicationSection() {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    message: ''
-  });
-  const [resumeFile, setResumeFile] = useState<File | null>(null);
-  const [fileName, setFileName] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [captchaVerified, setCaptchaVerified] = useState(false);
   const [content, setContent] = useState<ApplicationContent>(defaultContent);
   const [loading, setLoading] = useState(true);
+  const [formLoaded, setFormLoaded] = useState(false);
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -73,116 +65,6 @@ export default function ApplicationSection() {
     };
   }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const maxSize = 10 * 1024 * 1024; // 10MB
-      const allowedTypes = ['.doc', '.docx', '.pdf'];
-      const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase();
-      
-      if (!allowedTypes.includes(fileExtension)) {
-        alert('Please upload a .doc, .pdf, or .docx file');
-        e.target.value = '';
-        return;
-      }
-      
-      if (file.size > maxSize) {
-        alert('File size must be less than 10 MB');
-        e.target.value = '';
-        return;
-      }
-      
-      setResumeFile(file);
-      setFileName(file.name);
-    }
-  };
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    
-    if (!captchaVerified) {
-      alert('Please complete the captcha verification');
-      return;
-    }
-
-    if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone || !formData.message) {
-      alert('Please fill in all required fields');
-      return;
-    }
-
-    if (!resumeFile) {
-      alert('Please upload your resume. Resume is required.');
-      return;
-    }
-
-    if (formData.message.length > 500) {
-      alert('Message must be less than 500 characters');
-      return;
-    }
-
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
-
-    try {
-      const API_BASE_URL = import.meta.env.VITE_API_URL || '';
-      const apiUrl = API_BASE_URL ? `${API_BASE_URL}/api/careers-application` : '/api/careers-application';
-
-      // Create FormData for file upload
-      const submitData = new FormData();
-      submitData.append('firstName', formData.firstName);
-      submitData.append('lastName', formData.lastName);
-      submitData.append('email', formData.email);
-      submitData.append('phone', formData.phone);
-      submitData.append('message', formData.message);
-      submitData.append('recaptchaToken', 'verified'); // Custom captcha is already verified
-      
-      if (resumeFile) {
-        submitData.append('resume', resumeFile);
-      }
-
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        body: submitData,
-      });
-
-      const result = await response.json();
-
-      if (response.ok && result.success) {
-        setSubmitStatus('success');
-        setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          message: ''
-        });
-        setResumeFile(null);
-        setFileName('');
-        setCaptchaVerified(false);
-      } else {
-        setSubmitStatus('error');
-        const errorMessage = result.message || result.error || 'Unknown error occurred';
-        console.error('Application submission error:', errorMessage, result.errors);
-        alert(`Error: ${errorMessage}${result.errors ? '\n' + result.errors.map((e: any) => e.msg).join('\n') : ''}`);
-      }
-    } catch (error: any) {
-      setSubmitStatus('error');
-      const errorMessage = error.message || 'Network error. Please check your connection and try again.';
-      console.error('Application submission error:', error);
-      alert(`Error: ${errorMessage}`);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   return (
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-6 lg:px-16">
@@ -205,142 +87,24 @@ export default function ApplicationSection() {
             </div>
           </div>
 
-          {/* Right Column - Application Form */}
+          {/* Right Column – Kissflow careers form iframe (careers page only; contact form unchanged) */}
           <div className="bg-white">
             <h2 className="text-gray-900 text-3xl md:text-4xl font-bold mb-8">{content.formTitle || defaultContent.formTitle}</h2>
-            
-            <form onSubmit={handleSubmit} id="careers-application">
-              {/* Name Fields */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div className="relative">
-                  <i className="ri-user-line absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
-                  <input
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleInputChange}
-                    placeholder="First Name"
-                    required
-                    maxLength={400}
-                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-green-600 text-sm"
-                  />
-                </div>
-                <div className="relative">
-                  <i className="ri-user-line absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
-                  <input
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                    placeholder="Last Name"
-                    required
-                    maxLength={400}
-                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-green-600 text-sm"
-                  />
-                </div>
-              </div>
-
-              {/* Email and Phone */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div className="relative">
-                  <i className="ri-mail-line absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
-                  <input
-                    type="text"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    placeholder="Email Address"
-                    required
-                    maxLength={400}
-                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-green-600 text-sm"
-                  />
-                </div>
-                <div className="relative">
-                  <i className="ri-phone-line absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    placeholder="Phone"
-                    required
-                    maxLength={400}
-                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-green-600 text-sm"
-                  />
-                </div>
-              </div>
-
-              {/* Message */}
-              <div className="mb-4">
-                <div className="relative">
-                  <i className="ri-message-3-line absolute left-4 top-4 text-gray-400 text-lg"></i>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    placeholder="Message"
-                    required
-                    maxLength={500}
-                    rows={5}
-                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-green-600 resize-none text-sm"
-                  ></textarea>
-                  <div className="text-right text-xs text-gray-500 mt-1">
-                    {formData.message.length}/500 characters
-                  </div>
-                </div>
-              </div>
-
-              {/* Resume Upload */}
-              <div className="mb-6">
-                <label className="inline-block bg-gray-900 text-white px-6 py-3 rounded cursor-pointer hover:bg-gray-800 transition-colors whitespace-nowrap">
-                  <i className="ri-upload-2-line mr-2"></i>
-                  Upload Resume <span className="text-red-500">*</span>
-                  <input
-                    type="file"
-                    accept=".pdf,.doc,.docx"
-                    onChange={handleFileChange}
-                    required
-                    className="hidden"
-                  />
-                </label>
-                {fileName && (
-                  <span className="ml-4 text-sm text-gray-600">{fileName}</span>
-                )}
-                {!fileName && (
-                  <span className="ml-4 text-sm text-red-600">Resume is required</span>
-                )}
-                <p className="text-xs text-gray-500 mt-2">
-                  (Upload your resume in .doc, .pdf, or .docx format, less than 10 MB. <span className="text-red-500 font-semibold">Required</span>)
-                </p>
-              </div>
-
-              {/* Captcha */}
-              <div className="mb-6">
-                <CaptchaComponent onVerify={setCaptchaVerified} />
-              </div>
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="bg-[#8DC63F] hover:bg-[#7AB62F] text-white px-8 py-3 rounded font-semibold transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
-              >
-                <i className="ri-send-plane-fill mr-2"></i>
-                {isSubmitting ? 'Submitting...' : 'Get In Touch'}
-              </button>
-
-              {/* Status Messages */}
-              {submitStatus === 'success' && (
-                <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded text-green-800 text-sm">
-                  Thank you for your application! We will review it and get back to you soon.
+            <div className="relative min-h-[800px] rounded-lg overflow-hidden border border-gray-200">
+              {!formLoaded && (
+                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-gray-50 text-gray-600" aria-live="polite">
+                  <div className="w-12 h-12 border-4 border-[#8DC63F] border-t-transparent rounded-full animate-spin" />
+                  <p className="text-sm font-medium">Loading application form…</p>
                 </div>
               )}
-              {submitStatus === 'error' && (
-                <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded text-red-800 text-sm">
-                  There was an error submitting your application. Please try again.
-                </div>
-              )}
-            </form>
+              <iframe
+                src={KISSFLOW_CAREERS_FORM_URL}
+                title="Careers application form"
+                className="w-full border-0 block relative z-0"
+                style={{ height: '800px', minHeight: '800px' }}
+                onLoad={() => setFormLoaded(true)}
+              />
+            </div>
           </div>
         </div>
       </div>

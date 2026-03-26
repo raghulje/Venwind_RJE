@@ -28,7 +28,8 @@
     "seed:product-hero": "node scripts/seed_product_hero.js",
  
 
-    "seed:all": "npm run seed:research-innovations && npm run seed:digital-solutions && npm run seed:innovation-transformation && npm run seed:social-section && npm run seed:footer-section && npm run seed:vision-mission"
+    "seed:all": "npm run seed:research-innovations && npm run seed:digital-solutions && npm run seed:innovation-transformation && npm run seed:social-section && npm run seed:footer-section && npm run seed:vision-mission",
+    "send-dummy-forms": "node scripts/send_dummy_forms.js"
   },
   "author": "Sathish",
   "license": "ISC",

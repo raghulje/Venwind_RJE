@@ -24,15 +24,15 @@ export default function LoginPage() {
         body: JSON.stringify({ username, password }),
       });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
-      if (response.ok && data.status) {
+      if (response.ok && (data.status || data.success)) {
         localStorage.setItem('isAdminLoggedIn', 'true');
         localStorage.setItem('userType', data.user_data?.user_type || 'Admin');
         localStorage.setItem('userId', data.user_data?.id || '');
         navigate('/admin');
       } else {
-        setError(data.message || 'Invalid username or password');
+        setError(data.message || data.error || 'Invalid username or password');
       }
     } catch (err) {
       console.error('Login error:', err);

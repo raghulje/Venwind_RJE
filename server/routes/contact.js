@@ -1,8 +1,23 @@
 const express = require('express');
 const router = express.Router();
 const emailService = require('../services/email_service');
+const { sendToKissflowWebhook } = require('../helpers/kissflowWebhook');
+const { getRequestMeta, phoneToDigitsOnly } = require('../helpers/requestMeta');
 const { body, validationResult } = require('express-validator');
 const { CmsContent } = require('../models');
+
+// Show where form emails are sent (so you can verify without sending)
+router.get('/email-receiver', (req, res) => {
+  const receiverEmail = process.env.RECEIVER_EMAIL || 'raghul.je@refex.co.in';
+  const smtpConfigured = !!(process.env.SMTP_USER && process.env.SMTP_PASS);
+  res.json({
+    receiverEmail,
+    smtpConfigured,
+    message: smtpConfigured
+      ? `Contact and careers form emails are sent to ${receiverEmail}. Set RECEIVER_EMAIL in server/.env to change.`
+      : 'SMTP not configured. Set SMTP_USER and SMTP_PASS in server/.env to receive emails.',
+  });
+});
 
 // Contact form submission endpoint
 router.post('/contact-form', [
@@ -62,7 +77,7 @@ router.post('/contact-form', [
       });
     }
 
-    const { name, email, phone, company, message, recaptchaToken } = req.body;
+    const { name, email, phone, company, message, recaptchaToken, websiteName } = req.body;
 
     // Get client IP address
     const ipAddress = req.ip || req.connection.remoteAddress || req.headers['x-forwarded-for'] || 'Unknown';
@@ -79,59 +94,49 @@ router.post('/contact-form', [
       timestamp: new Date().toISOString()
     };
 
-    // Fetch email configuration from CMS - REQUIRED
-    // Default sender is SMTP_USER (must match authenticated account)
-    let senderEmail = process.env.SMTP_USER || null; // Will use SMTP_USER in email service
-    let receiverEmail = null; // No default - must be configured in CMS
-    
+    // Fetch email configuration from CMS; default receiver from .env or fallback
+    const DEFAULT_RECEIVER = process.env.RECEIVER_EMAIL || 'raghul.je@refex.co.in';
+    let senderEmail = process.env.SMTP_USER || null;
+    let receiverEmail = DEFAULT_RECEIVER;
+
     try {
       const emailConfig = await CmsContent.findOne({
         where: { page: 'contact', section: 'email-config' },
       });
-      
+
       console.log('📧 Email config from CMS:', JSON.stringify(emailConfig ? emailConfig.data : null, null, 2));
-      
+
       if (emailConfig && emailConfig.data) {
-        // Handle both JSON string and object formats
         const configData = typeof emailConfig.data === 'string' ? JSON.parse(emailConfig.data) : emailConfig.data;
-        
-        // Sender email from CMS (used for display name/reply-to, but actual from will be SMTP_USER)
+
         if (configData.senderEmail && typeof configData.senderEmail === 'string' && configData.senderEmail.trim()) {
           senderEmail = configData.senderEmail.trim();
           console.log('📧 Using sender email from CMS:', senderEmail);
         }
-        // Receiver email from CMS (where emails are actually sent) - REQUIRED
         if (configData.receiverEmail && typeof configData.receiverEmail === 'string' && configData.receiverEmail.trim()) {
           const trimmedEmail = configData.receiverEmail.trim();
-          // Validate email format
           if (trimmedEmail.includes('@') && trimmedEmail.length > 3) {
             receiverEmail = trimmedEmail;
             console.log('✅ Using receiver email from CMS:', receiverEmail);
-          } else {
-            console.error('❌ Invalid receiver email format in CMS:', trimmedEmail);
-            throw new Error('Invalid receiver email format configured in CMS. Please set a valid email address in Admin → Contact → Email Config.');
           }
         } else {
-          console.error('❌ Receiver email not configured in CMS');
-          throw new Error('Receiver email is not configured. Please set the "Receiver Email (To)" field in Admin → Contact → Email Config section.');
+          console.log('📧 Using default contact receiver email:', receiverEmail);
         }
       } else {
-        console.error('❌ No email config found in CMS for contact page');
-        throw new Error('Email configuration not found. Please configure the receiver email in Admin → Contact → Email Config section.');
+        console.log('📧 No contact email config in CMS; using default receiver:', receiverEmail);
       }
     } catch (error) {
-      console.error('❌ Failed to fetch email config from CMS:', error.message);
-      if (error.message.includes('not configured') || error.message.includes('not found') || error.message.includes('Invalid')) {
-        // Re-throw configuration errors
-        throw error;
-      }
-      console.error('Stack trace:', error.stack);
-      throw new Error('Failed to fetch email configuration from CMS. Please ensure the receiver email is configured in Admin → Contact → Email Config.');
+      console.error('❌ Failed to fetch contact email config from CMS:', error.message);
+      console.log('📧 Using default contact receiver email:', receiverEmail);
     }
 
-    // Final validation - receiver email must be set
     if (!receiverEmail || !receiverEmail.includes('@')) {
-      throw new Error('Receiver email is not configured. Please set the "Receiver Email (To)" field in Admin → Contact → Email Config section.');
+      receiverEmail = DEFAULT_RECEIVER;
+    }
+    // Never send to contact@venwindrefex.com
+    if (receiverEmail.toLowerCase() === 'contact@venwindrefex.com') {
+      receiverEmail = DEFAULT_RECEIVER;
+      console.log('📧 Using default receiver instead of blocked contact@venwindrefex.com');
     }
 
     console.log('📧 Sending contact form email to:', receiverEmail);
@@ -163,6 +168,20 @@ router.post('/contact-form', [
       console.warn('⚠️  Auto-reply failed, but main email was sent:', autoReplyError.message);
       // Don't throw - auto-reply failure shouldn't fail the whole submission
     }
+
+    // Send same data to Kissflow webhook with dashboard-ready metadata (non-blocking)
+    const meta = getRequestMeta(req);
+    const phoneDigits = phoneToDigitsOnly(phone);
+    const webhookData = {
+      name,
+      email,
+      phone: phoneDigits,
+      Phone_Number: phoneDigits,
+      company,
+      message,
+      ...meta,
+    };
+    sendToKissflowWebhook(websiteName && String(websiteName).trim() ? String(websiteName).trim() : 'Venwind Refex', 'Contact form', webhookData);
 
     // Log successful submission
     console.log(`Contact form submitted successfully by ${name} (${email}) at ${new Date().toISOString()}`);
@@ -214,33 +233,44 @@ router.get('/test-email', async (req, res) => {
   }
 });
 
-// Test email sending with actual email (for debugging)
+// Test email sending with dummy data (labeled as TESTING)
 router.post('/test-email-send', async (req, res) => {
   try {
+    const defaultReceiver = process.env.RECEIVER_EMAIL || 'raghul.je@refex.co.in';
     const { testEmail } = req.body;
-    const receiverEmail = testEmail || 'contact@venwindrefex.com';
-    
-    console.log('🧪 Testing email send to:', receiverEmail);
-    
+    let receiverEmail = (testEmail && typeof testEmail === 'string' && testEmail.trim()) ? testEmail.trim() : defaultReceiver;
+    if (receiverEmail.toLowerCase() === 'contact@venwindrefex.com') receiverEmail = defaultReceiver;
+
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      return res.status(503).json({
+        success: false,
+        message: 'Email not configured. Set SMTP_USER and SMTP_PASS in server/.env to send emails.',
+        receiverEmail,
+        hint: 'Add RECEIVER_EMAIL=raghul.je@refex.co.in to .env so you know where emails go.',
+      });
+    }
+
+    console.log('🧪 Sending TESTING contact form email to:', receiverEmail);
+
     const testFormData = {
-      name: 'Test User',
-      email: 'test@example.com',
-      phone: '1234567890',
-      company: 'Test Company',
-      message: 'This is a test email from the Venwind Refex contact form system.',
+      name: '[TESTING] Dummy Contact',
+      email: 'testing-dummy@example.com',
+      phone: '+91 98765 43210',
+      company: '[TESTING] Dummy Company Ltd',
+      message: 'This is a test email from the Venwind Refex contact form. No action needed — for testing only.',
       recaptchaToken: 'test',
       ipAddress: '127.0.0.1',
       timestamp: new Date().toISOString()
     };
-    
+
     const senderEmail = process.env.SMTP_USER || null;
     const emailResult = await emailService.sendContactFormEmail(testFormData, senderEmail, receiverEmail);
-    
+
     res.json({
       success: true,
-      message: `Test email sent successfully to ${receiverEmail}`,
+      message: `Test contact email sent to ${receiverEmail}. Check inbox and spam.`,
       messageId: emailResult.messageId,
-      receiverEmail: receiverEmail
+      receiverEmail,
     });
   } catch (error) {
     console.error('Test email send error:', error);
@@ -248,6 +278,7 @@ router.post('/test-email-send', async (req, res) => {
       success: false,
       message: 'Failed to send test email',
       error: error.message,
+      receiverEmail: process.env.RECEIVER_EMAIL || 'raghul.je@refex.co.in',
       stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
     });
   }

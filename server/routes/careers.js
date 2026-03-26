@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const emailService = require('../services/email_service');
+const { sendToKissflowWebhook } = require('../helpers/kissflowWebhook');
+const { getRequestMeta, phoneToDigitsOnly } = require('../helpers/requestMeta');
 const { body, validationResult } = require('express-validator');
 const { CmsContent } = require('../models');
 const multer = require('multer');
@@ -145,57 +147,49 @@ router.post('/careers-application', upload.single('resume'), [
     // Get resume file path if uploaded
     const resumePath = req.file ? req.file.path : null;
 
-    // Fetch email configuration from CMS - REQUIRED
+    // Fetch email configuration from CMS; default receiver from .env or fallback
+    const DEFAULT_RECEIVER = process.env.RECEIVER_EMAIL || 'raghul.je@refex.co.in';
     let senderEmail = process.env.SMTP_USER || null;
-    let receiverEmail = null; // No default - must be configured in CMS
-    
+    let receiverEmail = DEFAULT_RECEIVER;
+
     try {
       const emailConfig = await CmsContent.findOne({
         where: { page: 'careers', section: 'email-config' },
       });
-      
+
       console.log('📧 Careers email config from CMS:', JSON.stringify(emailConfig ? emailConfig.data : null, null, 2));
-      
+
       if (emailConfig && emailConfig.data) {
-        // Handle both JSON string and object formats
         const configData = typeof emailConfig.data === 'string' ? JSON.parse(emailConfig.data) : emailConfig.data;
-        
+
         if (configData.senderEmail && typeof configData.senderEmail === 'string' && configData.senderEmail.trim()) {
           senderEmail = configData.senderEmail.trim();
           console.log('📧 Using sender email from CMS:', senderEmail);
         }
-        // Receiver email from CMS (where emails are actually sent) - REQUIRED
         if (configData.receiverEmail && typeof configData.receiverEmail === 'string' && configData.receiverEmail.trim()) {
           const trimmedEmail = configData.receiverEmail.trim();
-          // Validate email format
           if (trimmedEmail.includes('@') && trimmedEmail.length > 3) {
             receiverEmail = trimmedEmail;
             console.log('✅ Using receiver email from CMS:', receiverEmail);
-          } else {
-            console.error('❌ Invalid receiver email format in CMS:', trimmedEmail);
-            throw new Error('Invalid receiver email format configured in CMS. Please set a valid email address in Admin → Careers → Email Config.');
           }
         } else {
-          console.error('❌ Receiver email not configured in CMS for careers');
-          throw new Error('Receiver email is not configured. Please set the "Receiver Email (To)" field in Admin → Careers → Email Config section.');
+          console.log('📧 Using default careers receiver email:', receiverEmail);
         }
       } else {
-        console.error('❌ No email config found in CMS for careers page');
-        throw new Error('Email configuration not found. Please configure the receiver email in Admin → Careers → Email Config section.');
+        console.log('📧 No careers email config in CMS; using default receiver:', receiverEmail);
       }
     } catch (error) {
       console.error('❌ Failed to fetch careers email config from CMS:', error.message);
-      if (error.message.includes('not configured') || error.message.includes('not found') || error.message.includes('Invalid')) {
-        // Re-throw configuration errors
-        throw error;
-      }
-      console.error('Stack trace:', error.stack);
-      throw new Error('Failed to fetch email configuration from CMS. Please ensure the receiver email is configured in Admin → Careers → Email Config.');
+      console.log('📧 Using default careers receiver email:', receiverEmail);
     }
 
-    // Final validation - receiver email must be set
     if (!receiverEmail || !receiverEmail.includes('@')) {
-      throw new Error('Receiver email is not configured. Please set the "Receiver Email (To)" field in Admin → Careers → Email Config section.');
+      receiverEmail = DEFAULT_RECEIVER;
+    }
+    // Never send to contact@venwindrefex.com
+    if (receiverEmail.toLowerCase() === 'contact@venwindrefex.com') {
+      receiverEmail = DEFAULT_RECEIVER;
+      console.log('📧 Using default receiver instead of blocked contact@venwindrefex.com');
     }
 
     console.log('📧 Sending careers application email to:', receiverEmail);
@@ -230,6 +224,24 @@ router.post('/careers-application', upload.single('resume'), [
       // Don't throw - auto-reply failure shouldn't fail the whole submission
     }
 
+    // Send same data to Kissflow webhook with dashboard-ready metadata (non-blocking)
+    const meta = getRequestMeta(req);
+    const resumeFilename = req.file ? req.file.originalname : null;
+    const phoneDigits = phoneToDigitsOnly(phone);
+    const webhookData = {
+      firstName,
+      lastName,
+      email,
+      phone: phoneDigits,
+      Phone_Number: phoneDigits,
+      message,
+      resumeFilename,
+      'Website and form': 'Venwind - Careers form',
+      Website_and_form: 'Venwind - Careers form',
+      ...meta,
+    };
+    sendToKissflowWebhook('Venwind Refex', 'Careers form', webhookData);
+
     // Log successful submission
     console.log(`Careers application submitted successfully by ${firstName} ${lastName} (${email}) at ${new Date().toISOString()}`);
 
@@ -260,6 +272,57 @@ router.post('/careers-application', upload.single('resume'), [
       success: false,
       message: 'Sorry, there was an error submitting your application. Please try again or contact us directly.',
       error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
+    });
+  }
+});
+
+// Test careers application email with dummy data (labeled as TESTING)
+router.post('/test-careers-send', async (req, res) => {
+  try {
+    const defaultReceiver = process.env.RECEIVER_EMAIL || 'raghul.je@refex.co.in';
+    const { testEmail } = req.body;
+    let receiverEmail = (testEmail && typeof testEmail === 'string' && testEmail.trim()) ? testEmail.trim() : defaultReceiver;
+    if (receiverEmail.toLowerCase() === 'contact@venwindrefex.com') receiverEmail = defaultReceiver;
+
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      return res.status(503).json({
+        success: false,
+        message: 'Email not configured. Set SMTP_USER and SMTP_PASS in server/.env to send emails.',
+        receiverEmail,
+        hint: 'Add RECEIVER_EMAIL=raghul.je@refex.co.in to .env so you know where emails go.',
+      });
+    }
+
+    console.log('🧪 Sending TESTING careers application email to:', receiverEmail);
+
+    const testFormData = {
+      firstName: '[TESTING] Dummy',
+      lastName: 'Applicant',
+      email: 'testing-dummy@example.com',
+      phone: '+91 98765 43210',
+      message: 'This is a test careers application. No action needed — for testing only.',
+      recaptchaToken: 'test',
+      ipAddress: '127.0.0.1',
+      timestamp: new Date().toISOString()
+    };
+
+    const senderEmail = process.env.SMTP_USER || null;
+    const emailResult = await emailService.sendCareersApplicationEmail(testFormData, null, senderEmail, receiverEmail);
+
+    res.json({
+      success: true,
+      message: `Test careers email sent to ${receiverEmail}. Check inbox and spam.`,
+      messageId: emailResult.messageId,
+      receiverEmail,
+    });
+  } catch (error) {
+    console.error('Test careers email send error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to send test careers email',
+      error: error.message,
+      receiverEmail: process.env.RECEIVER_EMAIL || 'raghul.je@refex.co.in',
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
     });
   }
 });

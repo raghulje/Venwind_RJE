@@ -60,18 +60,23 @@ class EmailService {
         console.error('Emails will be sent from this Readdy address. To send from crm@refex.co.in, update SMTP_USER in server/.env file');
       }
       
-      // Use receiver from CMS - REQUIRED (no default)
       if (!receiverEmail || !receiverEmail.trim()) {
         throw new Error('Receiver email is required but not provided. Please configure it in CMS.');
       }
-      
-      const toEmail = receiverEmail.trim();
-      
-      // Validate email format before sending
+
+      let toEmail = receiverEmail.trim();
+      // Never send form emails to contact@venwindrefex.com; use RECEIVER_EMAIL instead
+      const blockedReceiver = 'contact@venwindrefex.com';
+      const allowedReceiver = process.env.RECEIVER_EMAIL || 'raghul.je@refex.co.in';
+      if (toEmail.toLowerCase() === blockedReceiver.toLowerCase()) {
+        console.warn(`⚠️  Redirecting blocked receiver "${toEmail}" to ${allowedReceiver}`);
+        toEmail = allowedReceiver;
+      }
+
       if (!toEmail.includes('@') || toEmail.length < 5) {
         throw new Error(`Invalid receiver email format: ${toEmail}. Please configure a valid email address in CMS.`);
       }
-      
+
       console.log('📧 Email Service - Contact Form Email:');
       console.log('  From (SMTP_USER):', smtpAuthUser);
       console.log('  To (Receiver):', toEmail);
@@ -424,18 +429,23 @@ Email: cscompliance@refex.co.in | contact@venwindrefex.com
         console.error('⚠️  To send from crm@refex.co.in, you MUST update SMTP_USER in server/.env file to crm@refex.co.in');
       }
       
-      // Use receiver from CMS - REQUIRED (no default)
       if (!receiverEmail || !receiverEmail.trim()) {
         throw new Error('Receiver email is required but not provided. Please configure it in CMS.');
       }
-      
-      const toEmail = receiverEmail.trim();
-      
-      // Validate email format before sending
+
+      let toEmail = receiverEmail.trim();
+      // Never send form emails to contact@venwindrefex.com; use RECEIVER_EMAIL instead
+      const blockedReceiver = 'contact@venwindrefex.com';
+      const allowedReceiver = process.env.RECEIVER_EMAIL || 'raghul.je@refex.co.in';
+      if (toEmail.toLowerCase() === blockedReceiver.toLowerCase()) {
+        console.warn(`⚠️  Redirecting blocked receiver "${toEmail}" to ${allowedReceiver}`);
+        toEmail = allowedReceiver;
+      }
+
       if (!toEmail.includes('@') || toEmail.length < 5) {
         throw new Error(`Invalid receiver email format: ${toEmail}. Please configure a valid email address in CMS.`);
       }
-      
+
       console.log('📧 Email Service - Careers Application Email:');
       console.log('  From (SMTP_USER):', smtpAuthUser);
       console.log('  To (Receiver):', toEmail);

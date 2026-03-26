@@ -12,7 +12,18 @@ const authController = {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return Response.responseStatus(res, 400, "Validation Failed", errors);
+        return res.status(400).json({
+          success: false,
+          message: errors.array().map((e) => e.msg).join(". ") || "Validation failed",
+          data: errors.array(),
+        });
+      }
+      if (!APP_KEY || !APP_KEY.trim()) {
+        console.error("APP_KEY is not set in server .env");
+        return res.status(500).json({
+          success: false,
+          message: "Server configuration error. Please set APP_KEY in server .env",
+        });
       }
       const { username, password } = req.body;
       const existingUser = await User.findOne({ where: { username } });
@@ -34,15 +45,17 @@ const authController = {
       const token = jwt.sign({ id, session_id: history.id }, APP_KEY);
       return res.status(200).json({
         status: true,
+        success: true,
         message: "Login successfully",
         session_id: history.id,
         token,
         user_data: existingUser,
       });
     } catch (error) {
-      console.log(error.message);
-      return Response.responseStatus(res, 400, "Bad request", {
-        error: error.message,
+      console.error("Login error:", error.message);
+      return res.status(500).json({
+        success: false,
+        message: process.env.NODE_ENV === "development" ? error.message : "Login failed. Please try again.",
       });
     }
   },
