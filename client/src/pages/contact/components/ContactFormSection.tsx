@@ -2,7 +2,12 @@ import { useState, useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { getCMSData } from '../../../utils/cms';
-import CaptchaComponent from './CaptchaComponent';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import { useCooldownTimer } from '../../../hooks/enquiry/useCooldownTimer';
+import { useEmailValidation } from '../../../hooks/enquiry/useEmailValidation';
+import { usePhoneValidation } from '../../../hooks/enquiry/usePhoneValidation';
+import { checkEnquiry, createEnquiry, HttpError } from '../../../hooks/enquiry/enquiryApi';
 
 // --- Kissflow iframe (commented out; uncomment to use in future) ---
 // const KISSFLOW_FORM_URL = 'https://development-refexgroup.kissflow.com/public/Process/Pf1152c833-6b47-4361-a767-f66a99e07b30';
@@ -50,7 +55,29 @@ export default function ContactFormSection() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [captchaVerified, setCaptchaVerified] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<Partial<Record<'name' | 'email' | 'phone' | 'message', string>>>({});
+  const [touched, setTouched] = useState<Partial<Record<'name' | 'email' | 'phone' | 'message', boolean>>>({});
+  const { isCoolingDown, secondsLeft, startCooldown } = useCooldownTimer(10);
+
+  const emailValidation = useEmailValidation(formData.email, true);
+  const phoneValidation = usePhoneValidation(formData.phone, true);
+  const messageError =
+    !formData.message.trim()
+      ? 'Message is required'
+      : formData.message.trim().length < 50
+        ? 'Message must be at least 50 characters'
+        : null;
+
+  const validateAndSet = (field: keyof typeof touched) => {
+    const next: Partial<Record<'name' | 'email' | 'phone' | 'message', string>> = {};
+    if (field === 'name') {
+      next.name = !formData.name.trim() ? 'Name is required' : formData.name.trim().length < 2 ? 'Name must be at least 2 characters' : undefined;
+    }
+    if (field === 'email') next.email = emailValidation.validate() || undefined;
+    if (field === 'phone') next.phone = phoneValidation.validate() || undefined;
+    if (field === 'message') next.message = messageError || undefined;
+    setFieldErrors((prev) => ({ ...prev, ...next }));
+  };
 
   useEffect(() => {
     AOS.init({
@@ -123,27 +150,89 @@ export default function ContactFormSection() {
     const { name, value } = e.target;
     if (name === 'message' && value.length > 500) return;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    const key = name as keyof typeof touched;
+    if (key in touched) {
+      setTouched((prev) => ({ ...prev, [key]: true }));
+      if (touched[key]) validateAndSet(key);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!captchaVerified) {
-      alert('Please complete the captcha verification');
+    if (isCoolingDown) {
       return;
     }
 
     setIsSubmitting(true);
     setSubmitStatus('idle');
+    setFieldErrors({});
+
+    const nextErrors: typeof fieldErrors = {};
+    if (!formData.name.trim() || formData.name.trim().length < 2) nextErrors.name = 'Name must be at least 2 characters';
+    const emailErr = emailValidation.validate();
+    if (emailErr) nextErrors.email = emailErr;
+    const phoneErr = phoneValidation.validate();
+    if (phoneErr) nextErrors.phone = phoneErr;
+    if (messageError) nextErrors.message = messageError;
+    if (Object.keys(nextErrors).length) {
+      setFieldErrors(nextErrors);
+      setTouched({ name: true, email: true, phone: true, message: true });
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
-      const apiUrl = API_BASE_URL ? `${API_BASE_URL}/api/contact-form` : '/api/contact-form';
+      // Duplicate check (non-blocking if endpoint not present)
+      try {
+        const dup = await checkEnquiry({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          phone: formData.phone.trim(),
+        });
+        if (dup?.exists) {
+          const field = dup.field || 'phone';
+          const msg =
+            field === 'email'
+              ? 'This email is already registered'
+              : field === 'phone'
+                ? 'This phone number is already registered'
+                : 'This name is already registered';
+          setFieldErrors((prev) => ({ ...prev, [field]: msg } as any));
+          setIsSubmitting(false);
+          return;
+        }
+      } catch (err) {
+        if (!(err instanceof HttpError && err.status === 404)) {
+          throw err;
+        }
+      }
 
+      // Preferred API
+      try {
+        await createEnquiry({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          phone: formData.phone.trim(),
+          company: formData.company,
+          message: formData.message,
+          source: 'venwind-contact',
+        });
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', phone: '', company: '', message: '' });
+        startCooldown();
+        return;
+      } catch (err) {
+        if (!(err instanceof HttpError && err.status === 404)) {
+          throw err;
+        }
+      }
+
+      // Fallback: existing endpoint to avoid breaking current behavior
+      const apiUrl = API_BASE_URL ? `${API_BASE_URL}/api/contact-form` : '/api/contact-form';
       const response = await fetch(apiUrl, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
@@ -155,16 +244,17 @@ export default function ContactFormSection() {
       });
 
       const result = await response.json();
-
       if (response.ok && result.success) {
         setSubmitStatus('success');
         setFormData({ name: '', email: '', phone: '', company: '', message: '' });
-        setCaptchaVerified(false);
+        startCooldown();
       } else {
         setSubmitStatus('error');
         const errorMessage = result.message || result.error || 'Unknown error occurred';
         console.error('Form submission error:', errorMessage, result.errors);
-        alert(`Error: ${errorMessage}${result.errors ? '\n' + result.errors.map((err: { msg: string }) => err.msg).join('\n') : ''}`);
+        alert(
+          `Error: ${errorMessage}${result.errors ? '\n' + result.errors.map((er: { msg: string }) => er.msg).join('\n') : ''}`
+        );
       }
     } catch (error: unknown) {
       setSubmitStatus('error');
@@ -268,48 +358,76 @@ export default function ContactFormSection() {
             <form id="contact-form" onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="relative">
-                  <div className="flex items-center border-b border-gray-300 pb-2">
+                  <div className={`flex items-center border-b pb-2 ${fieldErrors.name ? 'border-red-500' : 'border-gray-300'}`}>
                     <i className="ri-user-line text-gray-400 mr-3" aria-hidden />
                     <input
                       type="text"
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
+                      onBlur={() => {
+                        setTouched((prev) => ({ ...prev, name: true }));
+                        validateAndSet('name');
+                      }}
                       placeholder="Name"
                       required
                       className="w-full bg-transparent text-gray-900 placeholder-gray-400 focus:outline-none text-sm"
                     />
                   </div>
+                  {fieldErrors.name && <p className="text-xs text-red-500 mt-1">{fieldErrors.name}</p>}
                 </div>
                 <div className="relative">
-                  <div className="flex items-center border-b border-gray-300 pb-2">
+                  <div className={`flex items-center border-b pb-2 ${fieldErrors.email ? 'border-red-500' : 'border-gray-300'}`}>
                     <i className="ri-mail-line text-gray-400 mr-3" aria-hidden />
                     <input
                       type="text"
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
+                      onBlur={() => {
+                        setTouched((prev) => ({ ...prev, email: true }));
+                        validateAndSet('email');
+                      }}
                       placeholder="Email Address"
                       required
                       className="w-full bg-transparent text-gray-900 placeholder-gray-400 focus:outline-none text-sm"
                     />
                   </div>
+                  {fieldErrors.email && <p className="text-xs text-red-500 mt-1">{fieldErrors.email}</p>}
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="relative">
-                  <div className="flex items-center border-b border-gray-300 pb-2">
+                  <div className={`flex items-center border-b pb-2 ${fieldErrors.phone ? 'border-red-500' : 'border-gray-300'}`}>
                     <i className="ri-phone-line text-gray-400 mr-3" aria-hidden />
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      placeholder="Phone"
-                      required
-                      className="w-full bg-transparent text-gray-900 placeholder-gray-400 focus:outline-none text-sm"
-                    />
+                    <div className="w-full">
+                      <PhoneInput
+                        country="in"
+                        value={formData.phone.replace(/^\+/, '')}
+                        onChange={(value) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            phone: value ? `+${value}` : '',
+                          }))
+                        }
+                        inputProps={{
+                          name: 'phone',
+                          required: true,
+                          autoComplete: 'tel',
+                          onBlur: () => {
+                            setTouched((prev) => ({ ...prev, phone: true }));
+                            validateAndSet('phone');
+                          }
+                        }}
+                        containerClass="w-full"
+                        inputClass="!w-full !bg-transparent !text-gray-900 !placeholder-gray-400 !text-sm !border-0 !shadow-none focus:!outline-none"
+                        buttonClass="!bg-transparent !border-0"
+                        dropdownClass="!text-sm"
+                        placeholder="Phone"
+                      />
+                      {fieldErrors.phone && <p className="text-xs text-red-500 mt-1">{fieldErrors.phone}</p>}
+                    </div>
                   </div>
                 </div>
                 <div className="relative">
@@ -329,13 +447,17 @@ export default function ContactFormSection() {
               </div>
 
               <div className="relative">
-                <div className="flex items-start border-b border-gray-300 pb-2">
+                <div className={`flex items-start border-b pb-2 ${fieldErrors.message ? 'border-red-500' : 'border-gray-300'}`}>
                   <i className="ri-edit-line text-gray-400 mr-3 mt-1" aria-hidden />
                   <div className="w-full">
                     <textarea
                       name="message"
                       value={formData.message}
                       onChange={handleInputChange}
+                      onBlur={() => {
+                        setTouched((prev) => ({ ...prev, message: true }));
+                        validateAndSet('message');
+                      }}
                       placeholder="Message"
                       required
                       rows={4}
@@ -345,18 +467,15 @@ export default function ContactFormSection() {
                     <div className="text-right text-xs text-gray-400">
                       {formData.message.length}/500
                     </div>
+                    {fieldErrors.message && <p className="text-xs text-red-500 mt-1">{fieldErrors.message}</p>}
                   </div>
                 </div>
               </div>
 
               <div>
-                <CaptchaComponent onVerify={setCaptchaVerified} />
-              </div>
-
-              <div>
                 <button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || isCoolingDown}
                   className="bg-[#8DC63F] hover:bg-[#7AB62F] text-white px-8 py-3 rounded-md font-medium transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap flex items-center"
                 >
                   <i className="ri-send-plane-fill mr-2" aria-hidden />
