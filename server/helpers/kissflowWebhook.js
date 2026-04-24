@@ -8,7 +8,7 @@ const https = require('https');
 const { URL } = require('url');
 
 const KISSFLOW_WEBHOOK_URL =
-  'https://development-refexgroup.kissflow.com/integration/2/AcCMptp3yqcn/webhook/4e9yNyjAD6uxENJXAhNbtXzEGuOVQbDukBaeyWoG0kkqoeCkhIaxbK8FF4sWPWtcuQema2TcT-gLfVu3ot6g';
+  'https://refexgroup.kissflow.com/integration/2/AcCMptlq60zH/webhook/F51DqkQt8HoYqlSALpUWU8-uPOXxdSINKjZmtzXphM6Ujk-hJLw6lgZBW8NrIyyvXSmmZS9MwwaWdTmahBLNxQ';
 
 /** Delay between each webhook POST (ms) so Kissflow records each separately */
 const DELAY_BETWEEN_SENDS_MS = 3500;
@@ -88,7 +88,6 @@ async function processQueue() {
       submissionId,
       websiteName,
       formName,
-      'Website and form': `${websiteName} - ${formName}`,
       Website_and_form: `${websiteName} - ${formName}`,
     };
     console.log(`📤 Kissflow queue: sending ${formName} [${submissionId}] (${queue.length} left in queue)`);

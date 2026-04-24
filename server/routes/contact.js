@@ -161,7 +161,7 @@ router.post('/contact-form', [
     // Send auto-reply to customer (optional - you can remove this if not needed)
     console.log('📧 Sending auto-reply to customer:', email);
     try {
-      await emailService.sendAutoReply(email, name, senderEmail);
+      await emailService.sendAutoReply(email, name, senderEmail, { phone, company, message });
       console.log('✅ AUTO-REPLY EMAIL SENT SUCCESSFULLY!');
       console.log('   Sent to customer:', email);
     } catch (autoReplyError) {
@@ -175,7 +175,6 @@ router.post('/contact-form', [
     const webhookData = {
       name,
       email,
-      phone: phoneDigits,
       Phone_Number: phoneDigits,
       company,
       message,

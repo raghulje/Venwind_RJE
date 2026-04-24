@@ -3,8 +3,8 @@ const nodemailer = require('nodemailer');
 class EmailService {
   constructor() {
     // Get and validate SMTP configuration
-    const smtpHost = process.env.SMTP_HOST || 'smtp.gmail.com';
-    const smtpPort = parseInt(process.env.SMTP_PORT || '587', 10);
+    const smtpHost = process.env.SMTP_HOST || 'smtp.zoho.in';
+    const smtpPort = parseInt(process.env.SMTP_PORT || '465', 10);
     const smtpUser = process.env.SMTP_USER ? process.env.SMTP_USER.trim() : null;
     const smtpPass = process.env.SMTP_PASS ? process.env.SMTP_PASS.trim().replace(/\s+/g, '') : null; // Remove spaces from app password
     
@@ -48,7 +48,7 @@ class EmailService {
       const { name, email, phone, company, message, recaptchaToken } = formData;
 
       // Get the authenticated SMTP_USER - this MUST be used as the "from" address
-      // Gmail/SMTP servers require the "from" to match the authenticated user
+      // SMTP servers require the "from" to match the authenticated user
       const smtpAuthUser = process.env.SMTP_USER;
       if (!smtpAuthUser || smtpAuthUser.trim() === '') {
         throw new Error('SMTP_USER is not configured in environment variables. Please configure SMTP_USER in server/.env file');
@@ -238,15 +238,15 @@ IP Address: ${formData.ipAddress || 'Not available'}
       } else if (!process.env.SMTP_PASS) {
         throw new Error('Email configuration error: SMTP_PASS is not set. Please configure it in server/.env file and restart the server');
       } else if (errorMessage.includes('authentication') || errorMessage.includes('Invalid login') || errorMessage.includes('535') || errorCode === 'EAUTH' || responseCode === 535) {
-        throw new Error('Email authentication failed. Please verify SMTP_USER and SMTP_PASS in server/.env file are correct. For Gmail, make sure you\'re using an App Password (not your regular password).');
+        throw new Error('Email authentication failed. Please verify SMTP_USER and SMTP_PASS in server/.env file are correct. Use an SMTP app-specific password for your provider.');
       } else if (errorMessage.includes('connection') || errorMessage.includes('ECONNREFUSED') || errorCode === 'ECONNREFUSED') {
         throw new Error('Cannot connect to email server. Please check SMTP_HOST and SMTP_PORT in server/.env file. Make sure the server is running and can reach the SMTP server.');
       } else if (errorMessage.includes('timeout') || errorCode === 'ETIMEDOUT') {
         throw new Error('Connection timeout. Please check your internet connection and firewall settings. The SMTP server may be blocking the connection.');
       } else if (errorMessage.includes('ENOTFOUND')) {
-        throw new Error(`SMTP server not found: ${process.env.SMTP_HOST || 'smtp.gmail.com'}. Please check SMTP_HOST in server/.env file`);
+        throw new Error(`SMTP server not found: ${process.env.SMTP_HOST || 'smtp.zoho.in'}. Please check SMTP_HOST in server/.env file`);
       } else if (errorMessage.includes('534') || responseCode === 534) {
-        throw new Error('Application-specific password required. Please generate an App Password in your Gmail account settings and use it in SMTP_PASS');
+        throw new Error('Application-specific password required. Please generate an SMTP app password in your mail provider settings and use it in SMTP_PASS');
       } else if (errorMessage.includes('454') || responseCode === 454) {
         throw new Error('Temporary authentication failure. Please try again in a few moments.');
       }
@@ -255,7 +255,8 @@ IP Address: ${formData.ipAddress || 'Not available'}
   }
 
   // Send auto-reply to customer
-  async sendAutoReply(customerEmail, customerName, senderEmail = null) {
+  // details is optional and may include: phone, company, message
+  async sendAutoReply(customerEmail, customerName, senderEmail = null, details = null) {
     try {
       // Use SMTP_USER as the actual sender - required by SMTP servers
       const smtpAuthUser = process.env.SMTP_USER;
@@ -276,6 +277,10 @@ IP Address: ${formData.ipAddress || 'Not available'}
       // Ensure we don't use Readdy AI email - use Venwind Refex as display name
       const displayName = 'Venwind Refex';
       const fromDisplay = `${displayName} <${smtpAuthUser}>`;
+      const safeDetails = details && typeof details === 'object' ? details : {};
+      const safePhone = safeDetails.phone || '';
+      const safeCompany = safeDetails.company || '';
+      const safeMessage = safeDetails.message || '';
       const mailOptions = {
         from: fromDisplay,
         replyTo: senderEmail || smtpAuthUser,
@@ -315,6 +320,17 @@ IP Address: ${formData.ipAddress || 'Not available'}
                         <p style="color: #666; font-size: 16px; line-height: 1.8; margin: 0 0 25px 0;">
                           We typically respond to all inquiries within <strong>24 hours</strong> during business days. If your inquiry is urgent, please call us directly at <strong style="color: #8DC63F;">+91 44 - 3504 0050</strong> or <strong style="color: #8DC63F;">+91 44 - 6990 8410</strong>.
                         </p>
+
+                        ${(safePhone || safeCompany || safeMessage) ? `
+                        <div style="background-color: #f9f9f9; padding: 22px; border-radius: 8px; margin: 24px 0; border: 1px solid #e6e6e6;">
+                          <h3 style="color: #333; margin: 0 0 12px 0; font-size: 18px;">Your enquiry details</h3>
+                          <table width="100%" cellpadding="8" cellspacing="0" style="border-collapse: collapse; font-size: 14px; color: #555;">
+                            ${safePhone ? `<tr><td style="width: 140px; font-weight: bold;">Contact</td><td>${safePhone}</td></tr>` : ''}
+                            ${safeCompany ? `<tr><td style="width: 140px; font-weight: bold;">Company</td><td>${safeCompany}</td></tr>` : ''}
+                            ${safeMessage ? `<tr><td style="width: 140px; font-weight: bold; vertical-align: top;">Message</td><td style="white-space: pre-wrap;">${safeMessage}</td></tr>` : ''}
+                          </table>
+                        </div>
+                        ` : ''}
                         
                         <div style="background-color: #f0f7e8; padding: 25px; border-radius: 8px; margin: 30px 0; border-left: 4px solid #8DC63F;">
                           <h3 style="color: #333; margin-top: 0; margin-bottom: 15px; font-size: 18px;">What happens next?</h3>
@@ -373,6 +389,8 @@ Dear ${customerName},
 Thank you for reaching out to Venwind Refex. We have successfully received your inquiry and our team will review it carefully.
 
 We typically respond to all inquiries within 24 hours during business days. If your inquiry is urgent, please call us directly at +91 44 - 3504 0050 or +91 44 - 6990 8410.
+
+${(safePhone || safeCompany || safeMessage) ? `\nYour enquiry details:\n${safePhone ? `- Contact: ${safePhone}\n` : ''}${safeCompany ? `- Company: ${safeCompany}\n` : ''}${safeMessage ? `- Message: ${safeMessage}\n` : ''}` : ''}
 
 What happens next?
 - Our team will review your inquiry
@@ -606,13 +624,13 @@ IP Address: ${ipAddress || 'Not available'}
       } else if (!process.env.SMTP_PASS) {
         throw new Error('Email configuration error: SMTP_PASS is not set. Please configure it in server/.env file and restart the server');
       } else if (errorMessage.includes('authentication') || errorMessage.includes('Invalid login') || errorMessage.includes('535') || errorCode === 'EAUTH' || responseCode === 535) {
-        throw new Error('Email authentication failed. Please verify SMTP_USER and SMTP_PASS in server/.env file are correct. For Gmail, make sure you\'re using an App Password (not your regular password).');
+        throw new Error('Email authentication failed. Please verify SMTP_USER and SMTP_PASS in server/.env file are correct. Use an SMTP app-specific password for your provider.');
       } else if (errorMessage.includes('connection') || errorMessage.includes('ECONNREFUSED') || errorCode === 'ECONNREFUSED') {
         throw new Error('Cannot connect to email server. Please check SMTP_HOST and SMTP_PORT in server/.env file. Make sure the server is running and can reach the SMTP server.');
       } else if (errorMessage.includes('timeout') || errorCode === 'ETIMEDOUT') {
         throw new Error('Connection timeout. Please check your internet connection and firewall settings. The SMTP server may be blocking the connection.');
       } else if (errorMessage.includes('ENOTFOUND')) {
-        throw new Error(`SMTP server not found: ${process.env.SMTP_HOST || 'smtp.gmail.com'}. Please check SMTP_HOST in server/.env file`);
+        throw new Error(`SMTP server not found: ${process.env.SMTP_HOST || 'smtp.zoho.in'}. Please check SMTP_HOST in server/.env file`);
       }
       throw new Error(`Failed to send careers application email: ${errorMessage}${errorCode ? ' (Code: ' + errorCode + ')' : ''}${responseCode ? ' (Response: ' + responseCode + ')' : ''}`);
     }
