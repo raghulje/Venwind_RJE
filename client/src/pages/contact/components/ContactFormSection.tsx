@@ -41,7 +41,7 @@ function SubmissionSuccessOverlay({ onDone }: { onDone: () => void }) {
                 Thank you for reaching out to us.
                 <br />
                 Our <span className="text-emerald-200 font-semibold">Agentic AI</span> will call you shortly for further enquiry and details.
-                During the call, you can provide more details and also ask any queries you may have.
+                During the call, you can provide more details and also ask any queries regarding our businesses and our products.
               </p>
               <p className="mt-3 text-sm text-emerald-200 font-semibold">We&apos;re here to help!</p>
             </div>
