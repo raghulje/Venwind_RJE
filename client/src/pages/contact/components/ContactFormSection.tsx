@@ -9,6 +9,64 @@ import { useEmailValidation } from '../../../hooks/enquiry/useEmailValidation';
 import { usePhoneValidation } from '../../../hooks/enquiry/usePhoneValidation';
 import { checkEnquiry, createEnquiry, HttpError } from '../../../hooks/enquiry/enquiryApi';
 
+function SubmissionSuccessOverlay({ onDone }: { onDone: () => void }) {
+  useEffect(() => {
+    const t = window.setTimeout(onDone, 4500);
+    return () => window.clearTimeout(t);
+  }, [onDone]);
+
+  return (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-[#06121f]/90">
+      <div className="relative w-full max-w-3xl rounded-3xl border border-emerald-400/30 bg-gradient-to-br from-[#06121f] via-[#071a2c] to-[#06121f] shadow-2xl overflow-hidden">
+        <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-emerald-400/10 blur-3xl" />
+        <div className="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-cyan-400/10 blur-3xl" />
+
+        <div className="px-8 py-10 md:px-12 md:py-12">
+          <div className="flex flex-col items-center text-center gap-6">
+            <div className="relative">
+              <div className="absolute inset-0 rounded-full animate-ping bg-emerald-400/20" />
+              <div className="absolute -inset-3 rounded-full border border-emerald-400/30 animate-spin [animation-duration:6s]" />
+              <div className="relative h-20 w-20 rounded-full bg-emerald-500/15 border border-emerald-400/30 flex items-center justify-center">
+                <div className="h-12 w-12 rounded-full bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
+                  <span className="text-white text-2xl font-bold leading-none">✓</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full max-w-2xl rounded-2xl border border-emerald-400/25 bg-emerald-500/10 px-6 py-5">
+              <p className="text-white text-lg md:text-xl font-semibold">
+                Your enquiry has been <span className="text-emerald-300">submitted successfully!</span>
+              </p>
+              <p className="mt-2 text-sm md:text-base text-slate-200/90 leading-relaxed">
+                Thank you for reaching out to us.
+                <br />
+                Our <span className="text-emerald-200 font-semibold">Agentic AI</span> will call you shortly for further enquiry and details.
+                During the call, you can provide more details and also ask any queries you may have.
+              </p>
+              <p className="mt-3 text-sm text-emerald-200 font-semibold">We&apos;re here to help!</p>
+            </div>
+
+            <div className="w-full max-w-xl">
+              <p className="text-xs text-slate-200/70 mb-2">You will be redirected shortly...</p>
+              <div className="h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
+                <div className="h-full w-1/2 bg-gradient-to-r from-emerald-400 to-cyan-400 animate-pulse" />
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={onDone}
+              className="mt-2 text-xs text-slate-200/70 hover:text-slate-200 underline underline-offset-4"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // --- Kissflow iframe (commented out; uncomment to use in future) ---
 // const KISSFLOW_FORM_URL = 'https://development-refexgroup.kissflow.com/public/Process/Pf1152c833-6b47-4361-a767-f66a99e07b30';
 // const KISSFLOW_ORIGIN = 'https://development-refexgroup.kissflow.com';
@@ -58,14 +116,15 @@ export default function ContactFormSection() {
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<'name' | 'email' | 'phone' | 'message', string>>>({});
   const [touched, setTouched] = useState<Partial<Record<'name' | 'email' | 'phone' | 'message', boolean>>>({});
   const { isCoolingDown, secondsLeft, startCooldown } = useCooldownTimer(10);
+  const [showSuccessOverlay, setShowSuccessOverlay] = useState(false);
 
   const emailValidation = useEmailValidation(formData.email, true);
   const phoneValidation = usePhoneValidation(formData.phone, true);
   const messageError =
     !formData.message.trim()
       ? 'Message is required'
-      : formData.message.trim().length < 50
-        ? 'Message must be at least 50 characters'
+      : formData.message.trim().length < 15
+        ? 'Message must be at least 15 characters'
         : null;
 
   const validateAndSet = (field: keyof typeof touched) => {
@@ -219,6 +278,7 @@ export default function ContactFormSection() {
           source: 'venwind-contact',
         });
         setSubmitStatus('success');
+        setShowSuccessOverlay(true);
         setFormData({ name: '', email: '', phone: '', company: '', message: '' });
         startCooldown();
         return;
@@ -246,6 +306,7 @@ export default function ContactFormSection() {
       const result = await response.json();
       if (response.ok && result.success) {
         setSubmitStatus('success');
+        setShowSuccessOverlay(true);
         setFormData({ name: '', email: '', phone: '', company: '', message: '' });
         startCooldown();
       } else {
@@ -268,6 +329,14 @@ export default function ContactFormSection() {
 
   return (
     <section className="py-20 bg-white">
+      {showSuccessOverlay && (
+        <SubmissionSuccessOverlay
+          onDone={() => {
+            setShowSuccessOverlay(false);
+            setSubmitStatus('idle');
+          }}
+        />
+      )}
       <div className="max-w-7xl mx-auto px-6 lg:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Left Column - Contact Info */}
