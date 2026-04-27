@@ -46,13 +46,6 @@ function SubmissionSuccessOverlay({ onDone }: { onDone: () => void }) {
               <p className="mt-3 text-sm text-emerald-200 font-semibold">We&apos;re here to help!</p>
             </div>
 
-            <div className="w-full max-w-xl">
-              <p className="text-xs text-slate-200/70 mb-2">You will be redirected shortly...</p>
-              <div className="h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
-                <div className="h-full w-1/2 bg-gradient-to-r from-emerald-400 to-cyan-400 animate-pulse" />
-              </div>
-            </div>
-
             <button
               type="button"
               onClick={onDone}
